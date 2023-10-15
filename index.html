@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/dist/css/styles.css" />
+    <script src="/js/index.js" defer></script>
+    <script src="/js/registerUser.js" defer></script>
+    <script src="/js/loginUser.js" defer></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">X.O</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Dropdown
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <div
+        class="modal position-relative m-auto justify-content-center"
+        id="registerModal"
+        tabindex="1"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content p-2" style="min-width: 30vw">
+            <div class="modal-header">
+              <h5 class="modal-title" id="createActTitle">
+                Create a new account
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                id="closeRegisterModal"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">@</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="registerUsername"
+                  placeholder="Username"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                />
+              </div>
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="registerEmail"
+                  placeholder="Your Email"
+                  aria-label="Your Email"
+                  aria-describedby="basic-addon2"
+                />
+              </div>
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="registerPassword"
+                  placeholder="Password"
+                  aria-label="Password"
+                  aria-describedby="basic-addon1"
+                />
+              </div>
+            </div>
+            <div
+              class="modal-footer d-flex align-items-center justify-content-center"
+            >
+              <button
+                type="button"
+                id="registerBtn"
+                class="btn btn-primary ps-5 pe-5 m-2"
+              >
+                Create account
+              </button>
+            </div>
+            <div
+              class="modal-footer d-flex align-items-center justify-content-center"
+            >
+              <p class="m-2">
+                Already have an account?
+                <span><a href="#" id="signInLink">Sign In</a></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal position-relative m-auto justify-content-center"
+        id="loginModal"
+        tabindex="1"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content p-2" style="min-width: 30vw">
+            <div class="modal-header">
+              <h5 class="modal-title" id="loginTitle">
+                Log in to your account
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                id="closeLoginModal"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">@</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="loginUsername"
+                  placeholder="Username"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                />
+              </div>
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="loginEmail"
+                  placeholder="Your Email"
+                  aria-label="Your Email"
+                  aria-describedby="basic-addon2"
+                />
+              </div>
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="loginPassword"
+                  placeholder="Password"
+                  aria-label="Password"
+                  aria-describedby="basic-addon1"
+                />
+              </div>
+            </div>
+            <div
+              class="modal-footer d-flex align-items-center justify-content-center"
+            >
+              <button
+                type="button"
+                id="loginBtn"
+                class="btn btn-primary ps-5 pe-5 m-2"
+              >
+                Log in
+              </button>
+            </div>
+            <div
+              class="modal-footer d-flex align-items-center justify-content-center"
+            >
+              <p class="m-2">
+                Don't have an account?
+                <span><a href="#" id="signUpLink">Sign up</a></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
