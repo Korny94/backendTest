@@ -30,6 +30,7 @@ async function fetchToken() {
     localStorage.setItem("token", json.token);
     localStorage.setItem("username", json.user_display_name);
     localStorage.setItem("email", json.user_email);
+    loginTitle.innerHTML = json.message;
     if (response.ok) {
       loginUser();
     } else {
