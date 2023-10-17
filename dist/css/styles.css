@@ -11856,7 +11856,7 @@ textarea.form-control-lg {
   }
 }
 body {
-  min-height: 100vh;
+  min-height: 85vh;
   background-color: rgba(255, 249, 249, 0.312);
 }
 
@@ -11865,7 +11865,7 @@ nav {
 }
 
 main {
-  min-height: 75vh;
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11881,7 +11881,7 @@ main {
 
 #registerModal,
 #loginModal {
-  margin-top: -5rem;
+  margin-top: 0rem;
 }
 
 input,
