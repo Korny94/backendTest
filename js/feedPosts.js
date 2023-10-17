@@ -1,4 +1,8 @@
 const postsContainer = document.querySelector("#postsContainer");
+import { attachCommentEventListener } from "../js/postComment.js";
+import { postReaction } from "../js/reactions.js";
+import { addReactionListeners } from "../js/reactions.js";
+import { getReactionCounts } from "../js/reactions.js";
 
 async function fetchPosts() {
   try {
@@ -16,6 +20,8 @@ async function fetchPosts() {
     );
     const json = await response.json();
     console.log(json);
+    const loader = document.querySelector("#loader");
+    loader.classList.remove("loader");
 
     json.forEach((post) => {
       const postContainer = document.createElement("div"); // Create a new container for each post
@@ -49,6 +55,8 @@ async function fetchPosts() {
             `;
       });
 
+      const postId = post.id;
+
       postContainer.innerHTML = DOMPurify.sanitize(`
       <div class="modal d-flex position-relative" tabindex="-1">
         <div class="modal-dialog ">
@@ -61,7 +69,11 @@ async function fetchPosts() {
                 <div class="modal-image">
                     <img id="modalImage" src="${post._embedded["wp:featuredmedia"][0].source_url}" alt="" />
                 </div>
-                <div class="modal-title m-3">
+                <div>
+                    <div class="modal-reactionCount" id="modalReactionCount_${postId}">
+                    </div>
+                </div>
+                <div class="modal-title m-3 mt-0">
                     <h5 class="text-center m-0">${post.title.rendered}</h5>
                 </div>
                 <div class="modal-body ms-4 me-4">
@@ -73,15 +85,32 @@ async function fetchPosts() {
                 <div class="modal-comments">
                    ${commentHTML}
                 </div>
-                <div class="modal-footer m-3 mb-1">
-                    <textarea class="commentInput" placeholder="Add a comment..."></textarea>
-                    <img class="sendComment" src="../assets/send.png" alt="Send" />
+                <div class="modal-footer mb-1">
+                    <div class="modal-reactions mb-3 d-flex justify-content-around">
+                        <img class="modal-reaction" title="Like" alt="like" id="like_${postId}" src="../assets/thumbsUp.png" alt="Thumbs Up" />
+                        <img class="modal-reaction" title="Dislike" alt="dislike" id="dislike_${postId}" src="../assets/thumbsDown.png" alt="Thumbs Down" />
+                        <img class="modal-reaction" title="Love" alt="love" id="love_${postId}" src="../assets/heart.png" alt="Heart" />
+                        <img class="modal-reaction" title="Haha" alt="haha" id="haha_${postId}" src="../assets/laugh.png" alt="Laugh" />
+                        <img class="modal-reaction" title="Wow" alt="wow" id="wow_${postId}" src="../assets/surprised.png" alt="Surprised" />
+                        <img class="modal-reaction" title="Sad" alt="sad" id="sad_${postId}" src="../assets/cry.png" alt="Cry" />
+                        <img class="modal-reaction" title="Angry" alt="angry" id="angry_${postId}" src="../assets/angry.png" alt="Angry" />
+                    </div>
+                    <textarea class="commentInput" id="commentInput_${postId}" placeholder="Add a comment..."></textarea>
+                    <img class="sendComment" id="sendCommentBtn_${postId}" src="../assets/send.png" alt="Send" />
                 </div>
             </div>
         </div>
       </div>
         `);
+
       postsContainer.appendChild(postContainer); // Append each post container to the main container
+      attachCommentEventListener(postId);
+      addReactionListeners(postId, postReaction);
+      const modalReactionCount = document.querySelector(
+        `#modalReactionCount_${postId}`
+      );
+
+      getReactionCounts(postId, modalReactionCount);
     });
   } catch (error) {
     console.error(error);

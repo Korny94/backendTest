@@ -24,6 +24,11 @@ main {
   font-size: 1.5rem;
 }
 
+#registerModal,
+#loginModal {
+  margin-bottom: 15rem;
+}
+
 input,
 button,
 #basic-addon1 {
@@ -31,6 +36,7 @@ button,
 }
 
 .modal-content {
+  border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -65,7 +71,7 @@ button,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0rem 3rem;
+  margin: 1rem 1rem;
 }
 
 .commentInput {
@@ -79,7 +85,8 @@ button,
 .sendComment {
   position: absolute;
   width: 30px;
-  right: 3.5rem;
+  right: 3rem;
+  margin-top: 2.8rem;
   cursor: pointer;
   transition-duration: 300ms;
 }
@@ -104,4 +111,115 @@ html::-webkit-scrollbar-thumb,
 textarea::-webkit-scrollbar-thumb {
   background-color: #94949c6e;
   border-radius: 4px;
+}
+
+.createSort {
+  min-width: 20vw;
+  margin-top: 1.5rem;
+}
+
+.createSort > * {
+  font-size: 1.2rem;
+  transition: ease-in-out 200ms;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+}
+
+.createSort > *:hover {
+  transform: scale(1.06);
+}
+
+.modal-reactions {
+  width: 100%;
+}
+
+.modal-reaction {
+  max-width: 1.8rem;
+  cursor: pointer;
+  transition-duration: 300ms;
+}
+
+.modal-reaction:hover {
+  transform: scale(1.2);
+}
+
+.modal-reactionCount {
+  margin: 0.5rem 0 0.5rem 0.7rem;
+}
+
+.reaction-icon {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+/* LOADING */
+.loader {
+  animation: rotate 1s infinite;
+  height: 50px;
+  width: 50px;
+  margin-top: 7rem;
+  margin-bottom: 18rem;
+  scale: 1.5;
+}
+
+.loader:before,
+.loader:after {
+  border-radius: 50%;
+  content: "";
+  display: block;
+  height: 20px;
+  width: 20px;
+}
+.loader:before {
+  animation: ball1 1s infinite;
+  background-color: #ededed;
+  box-shadow: 30px 0 0 #0d6dfd9e;
+  margin-bottom: 10px;
+}
+.loader:after {
+  animation: ball2 1s infinite;
+  background-color: #0d6dfd9e;
+  box-shadow: 30px 0 0 #ededed;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg) scale(0.8);
+  }
+  50% {
+    transform: rotate(360deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(720deg) scale(0.8);
+  }
+}
+
+@keyframes ball1 {
+  0% {
+    box-shadow: 30px 0 0 #0d6dfd9e;
+  }
+  50% {
+    box-shadow: 0 0 0 #0d6dfd9e;
+    margin-bottom: 0;
+    transform: translate(15px, 15px);
+  }
+  100% {
+    box-shadow: 30px 0 0 #0d6dfd9e;
+    margin-bottom: 10px;
+  }
+}
+
+@keyframes ball2 {
+  0% {
+    box-shadow: 30px 0 0 #ededed;
+  }
+  50% {
+    box-shadow: 0 0 0 #ededed;
+    margin-top: -20px;
+    transform: translate(15px, 15px);
+  }
+  100% {
+    box-shadow: 30px 0 0 #ededed;
+    margin-top: 0;
+  }
 }

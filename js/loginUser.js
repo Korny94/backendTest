@@ -1,4 +1,3 @@
-const loginEmail = document.querySelector("#loginEmail");
 const loginPassword = document.querySelector("#loginPassword");
 const loginUsername = document.querySelector("#loginUsername");
 const loginBtn = document.querySelector("#loginBtn");
@@ -10,15 +9,12 @@ loginBtn.addEventListener("click", () => {
 
 async function fetchToken() {
   try {
-    const email = loginEmail.value;
     const password = loginPassword.value;
     const username = loginUsername.value;
-    console.log(email, password, username);
     const loginResponse = {
       method: "POST",
       body: JSON.stringify({
         username: username,
-        // email: email,
         password: password,
       }),
       headers: {
