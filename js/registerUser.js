@@ -64,9 +64,14 @@ async function registerUser(registerApi, registerUserObject) {
       const loginTitle = document.querySelector("#loginTitle");
       loginTitle.innerText = "Registration successful. Please login.";
       loginTitle.classList.add("success");
+    } else if (response.status === 500) {
+      const createAccountTitle = document.querySelector("#createActTitle");
+      createAccountTitle.innerText = json.message;
+      createAccountTitle.style.color = "red";
     } else {
       const createAccountTitle = document.querySelector("#createActTitle");
-      createAccountTitle.innerText = "Registration Failed";
+      createAccountTitle.innerText = "Invalid username, email or password.";
+      createAccountTitle.style.color = "red";
     }
   } catch (error) {
     console.error(error);

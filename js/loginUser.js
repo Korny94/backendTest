@@ -4,6 +4,7 @@ const loginBtn = document.querySelector("#loginBtn");
 const loginTitle = document.querySelector("#loginTitle");
 
 loginBtn.addEventListener("click", () => {
+  loginTitle.style.color = "black";
   loginTitle.innerText = "Logging in...";
   fetchToken();
 });
@@ -31,12 +32,14 @@ async function fetchToken() {
     localStorage.setItem("token", json.token);
     localStorage.setItem("username", json.user_display_name);
     localStorage.setItem("email", json.user_email);
-    loginTitle.innerHTML = json.message;
+
     if (response.ok) {
+      loginTitle.innerHTML = "Login successful! Redirecting...";
+      loginTitle.style.color = "green";
       loginUser();
     } else {
-      //   loginFailed.classList.add("text-danger");
-      //   loginFailed.innerText = "Login failed, please try again.";
+      loginTitle.innerHTML = json.message;
+      loginTitle.style.color = "red";
     }
   } catch (error) {
     console.error(error);
