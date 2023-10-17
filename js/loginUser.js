@@ -4,6 +4,7 @@ const loginBtn = document.querySelector("#loginBtn");
 const loginTitle = document.querySelector("#loginTitle");
 
 loginBtn.addEventListener("click", () => {
+  loginTitle.innerText = "Logging in...";
   fetchToken();
 });
 
