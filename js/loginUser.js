@@ -42,6 +42,7 @@ async function fetchToken() {
       loginTitle.style.color = "red";
     }
   } catch (error) {
+    loginTitle.innerHTML = error;
     console.error(error);
   }
 }
