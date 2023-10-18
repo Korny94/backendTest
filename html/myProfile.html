@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Feed</title>
+    <title id="profileTitle"></title>
     <link rel="icon" type="image/x-icon" href="../assets/favicon.png" />
     <link rel="stylesheet" href="../dist/css/styles.css" />
     <script src="../src/scss/bootstrap.bundle.min.js" defer></script>
@@ -13,9 +13,9 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script src="../js/feedPosts.js" defer type="module"></script>
     <script src="../js/postComment.js" defer type="module"></script>
     <script src="../js/reactions.js" defer type="module"></script>
+    <script src="../js/myPofile.js" defer type="module"></script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
@@ -37,13 +37,10 @@
       >
         <ul class="nav nav-pills d-flex justify-content-center">
           <li class="nav-item">
-            <a class="nav-link" href="../html/myProfile.html">Profile</a>
+            <a class="nav-link active" href="/html/profile.html">Profile</a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link active"
-              aria-current="page"
-              href="/html/feed.html"
+            <a class="nav-link" aria-current="page" href="/html/feed.html"
               >Feed</a
             >
           </li>
@@ -54,19 +51,53 @@
       </div>
     </nav>
     <main class="flex-column">
-      <div class="createSort gap-5 d-flex justify-content-between mb-2">
+      <div class="container">
+        <div class="row">
+          <div class="d-flex justify-content-center">
+            <img class="bannerImg" id="bannerImg" alt="Banner image" />
+            <img class="avatarImg" id="avatarImg" alt="Profile picture" />
+          </div>
+          <div class="row d-flex justify-content-around m-auto profileBtns">
+            <button
+              class="col-md-2 col-sm-10 btn btn-primary ps-4 pe-4 mb-3"
+              id="follow"
+            >
+              Follow
+            </button>
+            <button
+              class="col-md-2 col-sm-10 btn bg-body-tertiary ps-4 pe-4 mb-3"
+              id="message"
+            >
+              Message
+            </button>
+            <button
+              class="col-md-2 col-sm-10 btn bg-body-tertiary ps-4 pe-4 mb-3"
+              id="followers"
+            >
+              Followers
+            </button>
+            <button
+              class="col-md-2 col-sm-10 btn bg-body-tertiary ps-4 pe-4 mb-3"
+              id="following"
+            >
+              Following
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="createSort gap-5 d-flex justify-content-between mb-2">
         <button class="btn btn-primary ps-4 pe-4" id="createPostBtn">
           Create Post
         </button>
         <button class="btn bg-body-tertiary ps-4 pe-4" id="sortPostsBtn">
           Sort posts
         </button>
-      </div>
+      </div> -->
       <div
         id="postsContainer"
         class="d-flex flex-column align-items-center justify-content-center"
       >
-        <span class="loader" id="loader"></span>
+        <span class="loaders" id="loader"></span>
       </div>
     </main>
   </body>
