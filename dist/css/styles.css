@@ -11900,9 +11900,9 @@ button,
 }
 
 .modal-profile-image {
-  height: 8%;
-  width: 8%;
-  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 100%;
 }
 
 .modal-comments {
@@ -11919,6 +11919,22 @@ button,
   min-width: 50vw;
   z-index: 1;
   gap: 1rem;
+}
+
+#myPostsContainer {
+  position: absolute;
+  min-width: 50vw;
+  z-index: 1;
+  gap: 1rem;
+  top: 40rem;
+}
+
+#theirPostsContainer {
+  position: absolute;
+  min-width: 50vw;
+  z-index: 1;
+  gap: 1rem;
+  top: 40rem;
 }
 
 .postContainer {
@@ -12018,7 +12034,7 @@ textarea::-webkit-scrollbar-thumb {
   object-fit: cover;
   border: 3px solid rgba(232, 232, 232, 0.155);
   width: 80%;
-  height: 10rem;
+  height: 25rem;
   top: 8rem;
   cursor: pointer;
   transition: ease-in-out 300ms;
@@ -12027,15 +12043,16 @@ textarea::-webkit-scrollbar-thumb {
 .avatarImg {
   position: absolute;
   border-radius: 100%;
-  width: 150px;
-  height: 150px;
-  min-width: 130px;
-  max-width: 180px;
+  width: 200px;
+  height: 200px;
+  min-width: 180px;
+  max-width: 250px;
   border: 3px solid rgba(232, 232, 232, 0.655);
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.492);
-  top: 13rem;
+  top: 25.5rem;
   cursor: pointer;
   transition: ease-in-out 300ms;
+  object-fit: cover;
 }
 
 .avatarImg:hover {
@@ -12053,6 +12070,7 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 .profileBtns * {
+  font-size: 1.2rem;
   border-radius: 30px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(0, 0, 0, 0.291);
@@ -12063,6 +12081,31 @@ textarea::-webkit-scrollbar-thumb {
   transform: scale(1.07);
 }
 
+.profileLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 767.8px) {
+  #myPostsContainer {
+    top: 30rem;
+  }
+  #theirPostsContainer {
+    top: 30rem;
+  }
+  .bannerImg {
+    height: 15rem;
+  }
+  .avatarImg {
+    width: 180px;
+    height: 180px;
+    top: 18rem;
+  }
+}
 /* LOADING */
 .loader {
   animation: rotate 1s infinite;

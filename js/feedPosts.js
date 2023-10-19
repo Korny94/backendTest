@@ -15,7 +15,7 @@ async function fetchPosts() {
       },
     };
     const response = await fetch(
-      `https://backendtest.local/wp-json/wp/v2/posts?_embed=true`,
+      `https://backendtest.local/wp-json/wp/v2/posts?_embed=true&per_page=10`,
       postsResponse
     );
     const json = await response.json();
@@ -31,9 +31,9 @@ async function fetchPosts() {
           ? post._embedded.replies[0].length
           : 0;
 
-      const imageProfile = post._embedded.author[0].avatar_urls[24]
-        ? post._embedded.author[0].avatar_urls[24]
-        : "../assets/logo.png";
+      const imageProfile = post._embedded.author[0].url
+        ? post._embedded.author[0].url
+        : "../assets/avatarNoImg.png";
 
       const comments =
         post._embedded.replies && post._embedded.replies[0]
@@ -41,9 +41,10 @@ async function fetchPosts() {
           : [];
       let commentHTML = "";
       comments.forEach((comment) => {
+        const commentName = comment.author_name;
         commentHTML += `
             <div class="modal-comment border m-3 p-2">
-                <div class="d-flex align-items-center ms-2 mt-1">
+                <div title="${commentName}" class="profileLink d-flex align-items-center ms-2 mt-1">
                     <img class="modal-profile-image me-2" src="${imageProfile}" alt="Profile Image" />
                     <h6 class="modal-comment-name m-0">${comment.author_name}:</h6>
                 </div>
@@ -56,18 +57,25 @@ async function fetchPosts() {
       });
 
       const postId = post.id;
+      const imageUrl = post.meta.footnotes
+        ? post.meta.footnotes
+        : "../assets/noPostImg.jpg";
+
+      console.log(imageUrl);
 
       postContainer.innerHTML = DOMPurify.sanitize(`
       <div class="modal d-flex position-relative" tabindex="-1">
         <div class="modal-dialog ">
             <div class="modal-content postModal">
                 <div class="modal-header ms-2 me-3 mt-1">
+                <div class="profileLink" id="otherProfile" title="${post.author}">
                     <img class="modal-profile-image me-2" src="${imageProfile}" alt="" />
                     <h5 class="modal-name m-0">${post._embedded.author[0].name}</h5>
+                </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-image">
-                    <img id="modalImage" src="${post._embedded["wp:featuredmedia"][0].source_url}" alt="" />
+                  <img id="modalImage" src="${imageUrl}" alt="" />
                 </div>
                 <div>
                     <div class="modal-reactionCount" id="modalReactionCount_${postId}">
@@ -103,6 +111,51 @@ async function fetchPosts() {
       </div>
         `);
 
+      // // Get a reference to all comment profiles
+      // const commentProfiles = document.querySelectorAll(".profileLink");
+
+      // // Iterate through the comment profiles
+      // commentProfiles.forEach((commentProfile) => {
+      //   commentProfile.addEventListener("click", () => {
+      //     // Get the owner's username from the alt attribute
+      //     const owner = commentProfile.getAttribute("title");
+
+      //     localStorage.setItem("otherProfile", owner);
+
+      //     // Retrieve the user's own username from local storage
+      //     const username = localStorage.getItem("username");
+
+      //     // Determine the URL based on the username comparison
+      //     let url;
+      //     if (username === owner) {
+      //       url = "../html/myProfile.html";
+      //     } else {
+      //       url = "../html/profile.html";
+      //     }
+
+      //     // Redirect to the appropriate page
+      //     window.location.href = url;
+      //   });
+      // });
+
+      const otherProfile = postContainer.querySelector("#otherProfile");
+      otherProfile.onclick = function () {
+        const owner = otherProfile.getAttribute("title");
+
+        localStorage.setItem("otherProfile", owner);
+        const id = localStorage.getItem("id");
+
+        let url;
+        if (id === owner) {
+          url = "../html/myProfile.html";
+        } else {
+          url = "../html/profile.html";
+        }
+
+        // Redirect to the appropriate page
+        window.location.href = url;
+      };
+
       postsContainer.appendChild(postContainer); // Append each post container to the main container
       attachCommentEventListener(postId);
       addReactionListeners(postId, postReaction);
@@ -118,3 +171,43 @@ async function fetchPosts() {
 }
 
 fetchPosts();
+
+async function createPost() {
+  try {
+    const token = localStorage.getItem("token");
+    const postTitle = document.querySelector("#postTitle");
+    const postContent = document.querySelector("#postContent");
+    const postImage = document.querySelector("#postImage");
+    const postResponse = {
+      method: "POST",
+      body: JSON.stringify({
+        title: postTitle.value,
+        content: postContent.value,
+        meta: {
+          footnotes: postImage.value,
+        },
+        status: "publish",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await fetch(
+      `https://backendtest.local/wp-json/wp/v2/posts`,
+      postResponse
+    );
+    const json = await response.json();
+    console.log(json);
+    if (response.ok) {
+      location.reload();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+const postEntryBtn = document.querySelector("#postEntryBtn");
+postEntryBtn.addEventListener("click", () => {
+  createPost();
+});
