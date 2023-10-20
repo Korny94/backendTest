@@ -71,7 +71,7 @@ button,
   min-width: 50vw;
   z-index: 1;
   gap: 1rem;
-  top: 40rem;
+  top: 32rem;
 }
 
 #theirPostsContainer {
@@ -79,7 +79,7 @@ button,
   min-width: 50vw;
   z-index: 1;
   gap: 1rem;
-  top: 40rem;
+  top: 32rem;
 }
 
 .postContainer {
@@ -179,8 +179,8 @@ textarea::-webkit-scrollbar-thumb {
   object-fit: cover;
   border: 3px solid rgba(232, 232, 232, 0.155);
   width: 80%;
-  height: 25rem;
-  top: 8rem;
+  height: 20rem;
+  top: 5rem;
   cursor: pointer;
   transition: ease-in-out 300ms;
 }
@@ -194,7 +194,7 @@ textarea::-webkit-scrollbar-thumb {
   max-width: 250px;
   border: 3px solid rgba(232, 232, 232, 0.655);
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.492);
-  top: 25.5rem;
+  top: 18.5rem;
   cursor: pointer;
   transition: ease-in-out 300ms;
   object-fit: cover;
@@ -266,11 +266,11 @@ textarea::-webkit-scrollbar-thumb {
 /* MEDIA QUERIES */
 @media (max-width: 767.8px) {
   #myPostsContainer {
-    top: 30rem;
+    top: 27rem;
   }
 
   #theirPostsContainer {
-    top: 30rem;
+    top: 26rem;
   }
 
   .bannerImg {
@@ -280,7 +280,7 @@ textarea::-webkit-scrollbar-thumb {
   .avatarImg {
     width: 180px;
     height: 180px;
-    top: 18rem;
+    top: 15rem;
   }
 }
 
