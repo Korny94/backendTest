@@ -15,6 +15,7 @@ export async function postComment(url, commentText) {
     const response = await fetch(url, responseComment);
     const json = await response.json();
     console.log(json);
+    location.reload();
   } catch (error) {
     console.error(error);
   }
@@ -34,6 +35,8 @@ export function attachCommentEventListener(postId) {
     const commentText = commentInput.value;
     if (commentText.trim() !== "") {
       const commentUrl = `https://backendtest.local/wp-json/wp/v2/comments?post=${postId}`;
+      const scrollPosition = window.scrollY;
+      localStorage.setItem("scrollPosition", scrollPosition);
       postComment(commentUrl, commentText);
     }
   });

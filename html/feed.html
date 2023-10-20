@@ -16,6 +16,8 @@
     <script src="../js/feedPosts.js" defer type="module"></script>
     <script src="../js/postComment.js" defer type="module"></script>
     <script src="../js/reactions.js" defer type="module"></script>
+    <script src="../js/getUsers.js" defer type="module"></script>
+    <script src="../js/deletePost.js" defer type="module"></script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
@@ -134,9 +136,47 @@
             </div>
           </div>
         </div>
-        <button class="btn bg-body-tertiary ps-4 pe-4" id="sortPostsBtn">
-          Sort posts
+        <button
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#usersModal"
+          class="btn bg-body-tertiary ps-4 pe-4"
+          id="getUsersBtn"
+        >
+          Users
         </button>
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="usersModal"
+          tabindex="-1"
+          aria-labelledby="usersModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="usersModalLabel">Users</h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body" id="userModalBody"></div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div
         id="postsContainer"

@@ -22,6 +22,9 @@ export async function postReaction(postId, reaction) {
     );
     const responseData = await response.json();
     console.log(responseData); // Response from the API
+    setTimeout(() => {
+      location.reload();
+    }, 200);
   } catch (error) {
     console.error(error);
   }
@@ -37,36 +40,50 @@ export function addReactionListeners(postId) {
   const love = document.querySelector(`#love_${postId}`);
 
   like.addEventListener("click", function () {
+    const scrollPosition = window.scrollY;
+    localStorage.setItem("scrollPosition", scrollPosition);
     postReaction(postId, "like");
     getReactionCounts(postId);
   });
 
   dislike.addEventListener("click", function () {
+    const scrollPosition = window.scrollY;
+    localStorage.setItem("scrollPosition", scrollPosition);
     postReaction(postId, "dislike");
     getReactionCounts(postId);
   });
 
   haha.addEventListener("click", function () {
+    const scrollPosition = window.scrollY;
+    localStorage.setItem("scrollPosition", scrollPosition);
     postReaction(postId, "haha");
     getReactionCounts(postId);
   });
 
   angry.addEventListener("click", function () {
+    const scrollPosition = window.scrollY;
+    localStorage.setItem("scrollPosition", scrollPosition);
     postReaction(postId, "angry");
     getReactionCounts(postId);
   });
 
   wow.addEventListener("click", function () {
+    const scrollPosition = window.scrollY;
+    localStorage.setItem("scrollPosition", scrollPosition);
     postReaction(postId, "wow");
     getReactionCounts(postId);
   });
 
   sad.addEventListener("click", function () {
+    const scrollPosition = window.scrollY;
+    localStorage.setItem("scrollPosition", scrollPosition);
     postReaction(postId, "sad");
     getReactionCounts(postId);
   });
 
   love.addEventListener("click", function () {
+    const scrollPosition = window.scrollY;
+    localStorage.setItem("scrollPosition", scrollPosition);
     postReaction(postId, "love");
     getReactionCounts(postId);
   });

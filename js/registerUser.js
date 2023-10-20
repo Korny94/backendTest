@@ -8,6 +8,12 @@ registerBtn.addEventListener("click", () => {
   fetchAuthToken();
 });
 
+registerPassword.addEventListener("keyup", (event) => {
+  if (event.key === "Enter") {
+    fetchAuthToken();
+  }
+});
+
 async function fetchAuthToken() {
   try {
     const fetchTokenResponse = {

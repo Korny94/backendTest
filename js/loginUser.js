@@ -9,6 +9,14 @@ loginBtn.addEventListener("click", () => {
   fetchToken();
 });
 
+loginPassword.addEventListener("keyup", (event) => {
+  if (event.key === "Enter") {
+    loginTitle.style.color = "black";
+    loginTitle.innerText = "Logging in...";
+    fetchToken();
+  }
+});
+
 async function fetchToken() {
   try {
     const password = loginPassword.value;

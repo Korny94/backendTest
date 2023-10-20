@@ -7,6 +7,7 @@ import { attachCommentEventListener } from "../js/postComment.js";
 import { postReaction } from "../js/reactions.js";
 import { addReactionListeners } from "../js/reactions.js";
 import { getReactionCounts } from "../js/reactions.js";
+import { deletePostFunction } from "../js/deletePost.js";
 
 async function fetchProfile() {
   try {
@@ -25,7 +26,7 @@ async function fetchProfile() {
     );
     const json = await response.json();
     console.log(json);
-    localStorage.setItem("id", json.id);
+    localStorage.setItem("otherProfile", json.id);
 
     const bannerUrl = json.description;
 
@@ -118,17 +119,16 @@ async function fetchPosts() {
       comments.forEach((comment) => {
         const commentName = comment.author_name;
         commentHTML += `
-              <div class="modal-comment border m-3 p-2">
-                  <div title="${commentName}" class="profileLink d-flex align-items-center ms-2 mt-1">
-                      <img class="modal-profile-image me-2" src="${imageProfile}" alt="Profile Image" />
-                      <h6 class="modal-comment-name m-0">${comment.author_name}:</h6>
-                  </div>
-  
-                  <div class="m-2 mb-0">
-                      ${comment.content.rendered}
-                  </div>
-              </div>
-              `;
+        <div class="modal-comment border m-3 p-2">
+        <div title="${commentName}" class="profileLink d-flex align-items-center ms-2 mt-1">
+            <h6 class="modal-comment-name m-0 ms-3 mt-2">${comment.author_name}:</h6>
+        </div>
+
+        <div class="m-2 mb-0 ms-4">
+            ${comment.content.rendered}
+        </div>
+    </div>
+    `;
       });
 
       const postId = post.id;
@@ -137,6 +137,8 @@ async function fetchPosts() {
         : "../assets/noPostImg.jpg";
 
       console.log(imageUrl);
+
+      const postAuthor = post._embedded.author[0].name;
 
       postContainer.innerHTML = DOMPurify.sanitize(`
         <div class="modal d-flex position-relative" tabindex="-1">
@@ -147,7 +149,7 @@ async function fetchPosts() {
                       <img class="modal-profile-image me-2" src="${imageProfile}" alt="" />
                       <h5 class="modal-name m-0">${post._embedded.author[0].name}</h5>
                   </div>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <button type="button" class="btn-close" alt="${postAuthor}" title="${post.id}" id="deletePost" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-image">
                     <img id="modalImage" src="${imageUrl}" alt="" />
@@ -213,6 +215,17 @@ async function fetchPosts() {
       //   });
       // });
 
+      const deletePost = postContainer.querySelector("#deletePost");
+      deletePost.onclick = function () {
+        const postId = deletePost.getAttribute("title");
+        const postAuthor = deletePost.getAttribute("alt");
+        if (postAuthor === localStorage.getItem("username")) {
+          deletePostFunction(postId);
+        } else {
+          alert("You can only delete your own posts.");
+        }
+      };
+
       const otherProfile = postContainer.querySelector("#otherProfile");
       otherProfile.onclick = function () {
         const owner = otherProfile.getAttribute("title");
@@ -240,6 +253,13 @@ async function fetchPosts() {
 
       getReactionCounts(postId, modalReactionCount);
     });
+    setTimeout(() => {
+      const scrollPosition = localStorage.getItem("scrollPosition");
+      window.scrollTo(0, scrollPosition);
+    }, 1000);
+    setTimeout(() => {
+      localStorage.removeItem("scrollPosition");
+    }, 3000);
   } catch (error) {
     console.error(error);
   }
