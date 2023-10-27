@@ -1,4 +1,4 @@
-const userModalBody = document.querySelector("#userModalBody");
+const userModalBody = document.querySelector("#userModalBody2");
 import { attachCommentEventListener } from "./postComment.js";
 
 async function getUsers() {
@@ -76,68 +76,13 @@ async function createMessage() {
     const json = await response.json();
     console.log(json);
 
-    const messageContainer = document.querySelector("#messageContainer");
-
-    const postContainer = document.createElement("div"); // Create a new container for each post
-    postContainer.classList.add("messagesContainer"); // Add a class to the container
-
-    const comments =
-      json._embedded.replies && json._embedded.replies[0]
-        ? post._embedded.replies[0]
-        : [];
-    let commentHTML = "";
-    comments.forEach((comment) => {
-      const commentName = comment.author_name;
-      commentHTML += `
-              <div class="modal-comment border m-3 p-2">
-                  <div title="${commentName}" class="profileLink d-flex align-items-center ms-2 mt-1">
-                      <h6 class="modal-comment-name m-0 ms-3 mt-2">${comment.author_name}:</h6>
-                  </div>
-  
-                  <div class="m-2 mb-0 ms-4">
-                      ${comment.content.rendered}
-                  </div>
-              </div>
-              `;
-    });
-
-    const postId = json.id;
-
-    const msgTitle = json.title.rendered;
-    const messages = json.excerpt.rendered ? json.excerpt.rendered : "";
-
-    postContainer.innerHTML = DOMPurify.sanitize(`
-      <div class="modal d-flex position-relative allMessageModal" tabindex="-1">
-          <div class="modal-dialog" id="modalDialog">
-              <div class="modal-content postModal">
-
-                  <div class="modal-title m-5 mb-1 mt-4">
-                      <h5 class="text-center m-0">${msgTitle}</h5>
-                  </div>
-                  <div class="modal-body ms-4 me-4">
-                      ${messages}
-                  </div>
-                  <div class="modal-comments">
-                      ${commentHTML}
-                  </div>
-                  <div class="modal-footer mb-1">
-                      <textarea class="commentInput" id="commentInput_${postId}" placeholder="Type a message"></textarea>
-                      <img class="sendMessage" id="sendCommentBtn_${postId}" src="../assets/send.png" alt="Send" />
-                  </div>
-              </div>
-          </div>
-      </div>
-  `);
-
-    messageContainer.appendChild(postContainer); // Append each post container to the main container
-    attachCommentEventListener(postId);
+    location.reload();
   } catch (error) {
     console.error(error);
   }
 }
 
 async function getMessagesByUsernameInTitle() {
-  const username = localStorage.getItem("username");
   const apiUrl =
     "https://backendtest.local/wp-json/wp/v2/message?_embed=true&per_page=100";
   const token = localStorage.getItem("token");
@@ -153,49 +98,97 @@ async function getMessagesByUsernameInTitle() {
     const response = await fetch(apiUrl, usernamePosts);
     const posts = await response.json();
 
-    const matchingPosts = posts.filter((post) => {
-      const myId = localStorage.getItem("id");
-      return myId === post.author.toString();
+    // Filter the matching posts
+    const myId = localStorage.getItem("id");
+    const matchingPosts = posts.filter(
+      (post) => myId === post.author.toString()
+    );
+
+    // Sort the matchingPosts by postDate
+    const sortedPosts = matchingPosts.sort((postA, postB) => {
+      const postDateA = findPostDate(postA); // Get postDate for postA
+      const postDateB = findPostDate(postB); // Get postDate for postB
+
+      return new Date(postDateB) - new Date(postDateA); // Sort in descending order
     });
 
-    if (matchingPosts.length > 0) {
-      matchingPosts.forEach((post) => {
-        const messageContainer = document.querySelector("#messageContainer");
+    // Display the sorted posts
+    displaySortedPosts(sortedPosts);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+  }
+}
 
-        const postContainer = document.createElement("div"); // Create a new container for each post
-        postContainer.classList.add("messagesContainer"); // Add a class to the container
+function findPostDate(post) {
+  let postDate = null;
+  if (post._embedded && post._embedded.replies) {
+    const replies = post._embedded.replies[0];
 
-        const comments =
-          post._embedded && post._embedded.replies && post._embedded.replies[0]
-            ? post._embedded.replies[0]
-            : [];
+    for (let i = 0; i < replies.length; i++) {
+      const reply = replies[i];
+      if (reply.date) {
+        postDate = reply.date;
+        break; // Stop searching after finding the first reply with a date
+      }
+    }
+  }
 
-        let commentHTML = "";
-        comments.forEach((comment) => {
-          const commentName = comment.author_name;
-          commentHTML += `
+  return postDate;
+}
+
+function displaySortedPosts(sortedPosts) {
+  const messageContainer = document.querySelector("#messageContainer");
+  messageContainer.innerHTML = ""; // Clear existing content
+
+  sortedPosts.forEach((post) => {
+    const postContainer = document.createElement("div"); // Create a new container for each post
+    postContainer.classList.add("messagesContainer"); // Add a class to the container
+
+    const comments =
+      post._embedded && post._embedded.replies && post._embedded.replies[0]
+        ? post._embedded.replies[0]
+        : [];
+
+    let commentHTML = "";
+    comments.sort((commentA, commentB) => {
+      const commentDateA = commentA.date; // Assuming date is available in the comments
+      const commentDateB = commentB.date;
+
+      // Compare comments based on the commentDate
+      return new Date(commentDateA) - new Date(commentDateB);
+    });
+    const modalCommentsList = document.querySelectorAll(".modal-comments");
+    modalCommentsList.forEach((modalComments) => {
+      if (modalComments) {
+        modalComments.scrollTop = modalComments.scrollHeight;
+      }
+    });
+
+    comments.forEach((comment) => {
+      const commentName = comment.author_name;
+      commentHTML += `
                   <div class="modal-comment border m-3 p-2">
                       <div title="${commentName}" class="profileLink d-flex align-items-center ms-2 mt-1">
                           <h6 class="modal-comment-name m-0 ms-3 mt-2">${comment.author_name}:</h6>
                       </div>
-      
+
                       <div class="m-2 mb-0 ms-4">
                           ${comment.content.rendered}
                       </div>
                   </div>
               `;
-        });
+    });
 
-        const postId = post.id;
+    const postId = post.id;
 
-        const msgTitle = post.title.rendered;
-        const messages = post.excerpt.rendered ? post.excerpt.rendered : "";
+    const msgTitle = post.title.rendered;
+    const messages = post.excerpt.rendered ? post.excerpt.rendered : "";
 
-        postContainer.innerHTML = DOMPurify.sanitize(`
+    postContainer.innerHTML = DOMPurify.sanitize(`
               <div class="modal d-flex position-relative allMessageModal" tabindex="-1">
                   <div class="modal-dialog" id="modalDialog">
                       <div class="modal-content postModal">
-  
+
                           <div class="modal-title m-5 mb-1 mt-4">
                               <h5 class="text-center m-0">${msgTitle}</h5>
                           </div>
@@ -214,40 +207,35 @@ async function getMessagesByUsernameInTitle() {
               </div>
           `);
 
-        messageContainer.appendChild(postContainer); // Append each post container to the main container
-        attachCommentEventListener(postId);
+    messageContainer.appendChild(postContainer); // Append each post container to the main container
+    attachCommentEventListener(postId);
 
-        // Find the date of the first reply with a date
-        const replies = post._embedded.replies[0];
-        let postDate = null;
-        if (post._embedded && post._embedded.replies) {
-          for (let i = 0; i < replies.length; i++) {
-            const reply = replies[i];
-            if (reply.date) {
-              postDate = reply.date;
-              break; // Stop searching after finding the first reply with a date
-            }
-          }
-        }
+    // Find the date of the first reply with a date
+    let postDate = null;
+    if (post._embedded && post._embedded.replies) {
+      const replies = post._embedded.replies[0];
 
-        // Use postDate as needed
-        if (postDate) {
-          // You can format the date or use it as necessary
-          console.log("Post Date:", postDate);
-        } else {
-          // No posts contain both usernames
-          console.log("no message");
+      for (let i = 0; i < replies.length; i++) {
+        const reply = replies[i];
+        if (reply.date) {
+          postDate = reply.date;
+          break; // Stop searching after finding the first reply with a date
         }
-      });
+      }
     }
 
-    // Process the matchingPosts array as needed.
-    console.log(matchingPosts);
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-  }
+    // Use postDate as needed
+    if (postDate) {
+      // You can format the date or use it as necessary
+      console.log(postDate);
+    } else {
+      // No posts contain both usernames
+      console.log("no message");
+    }
+  });
 }
 
+// Call the main function to start the process
 getMessagesByUsernameInTitle();
 
 async function getSpecificMessage() {
@@ -283,57 +271,6 @@ async function getSpecificMessage() {
 
     // Check if there are matching posts
     if (matchingPosts.length > 0) {
-      //   matchingPosts.forEach((post) => {
-      //     const messageContainer = document.querySelector("#messageContainer");
-      //     const postContainer = document.createElement("div"); // Create a new container for each post
-      //     postContainer.classList.add("messagesContainer"); // Add a class to the container
-      //     const comments =
-      //       post._embedded && post._embedded.replies && post._embedded.replies[0]
-      //         ? post._embedded.replies[0]
-      //         : [];
-      //     let commentHTML = "";
-      //     comments.forEach((comment) => {
-      //       const commentName = comment.author_name;
-      //       commentHTML += `
-      //             <div class="modal-comment border m-3 p-2">
-      //                 <div title="${commentName}" class="profileLink d-flex align-items-center ms-2 mt-1">
-      //                     <h6 class="modal-comment-name m-0 ms-3 mt-2">${comment.author_name}:</h6>
-      //                 </div>
-      //                 <div class="m-2 mb-0 ms-4">
-      //                     ${comment.content.rendered}
-      //                 </div>
-      //             </div>
-      //         `;
-      //     });
-      //     const postId = post.id;
-      //     const msgTitle = json.title.rendered;
-      //     const messages = json.excerpt.rendered
-      //       ? json.excerpt.rendered
-      //       : "";
-      //     postContainer.innerHTML = DOMPurify.sanitize(`
-      //       <div class="modal d-flex position-relative allMessageModal" tabindex="-1">
-      //           <div class="modal-dialog" id="modalDialog">
-      //               <div class="modal-content postModal">
-      //                   <div class="modal-title m-5 mb-1 mt-4">
-      //                       <h5 class="text-center m-0">${msgTitle}</h5>
-      //                   </div>
-      //                   <div class="modal-body ms-4 me-4">
-      //                       ${messages}
-      //                   </div>
-      //                   <div class="modal-comments">
-      //                       ${commentHTML}
-      //                   </div>
-      //                   <div class="modal-footer mb-1">
-      //                       <textarea class="commentInput" id="commentInput_${postId}" placeholder="Type a message"></textarea>
-      //                       <img class="sendMessage" id="sendCommentBtn_${postId}" src="../assets/send.png" alt="Send" />
-      //                   </div>
-      //               </div>
-      //           </div>
-      //       </div>
-      //   `);
-      //     messageContainer.appendChild(postContainer); // Append each post container to the main container
-      //     attachCommentEventListener(postId);
-      //   });
     } else {
       // No posts contain both usernames
       console.log("no message");
