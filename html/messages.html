@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Messages</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.png" />
+    <link rel="stylesheet" href="../dist/css/styles.css" />
+    <script src="../src/scss/bootstrap.bundle.min.js" defer></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"
+      integrity="sha512-H+rglffZ6f5gF7UJgvH4Naa+fGCgjrHKMgoFOGmcPTRwR6oILo5R+gtzNrpDp7iMV3udbymBVjkeZGNz1Em4rQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="../js/postComment.js" defer type="module"></script>
+    <script src="../js/messages.js" defer type="module"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+      <a href="/html/feed.html" class="logoLink">X.O </a>
+      <button
+        class="navbar-toggler me-3"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="collapse navbar-collapse justify-content-end me-3"
+        id="navbarSupportedContent"
+      >
+        <ul class="nav nav-pills d-flex justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link active" href="messages.html">Messages</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../html/myProfile.html">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/html/feed.html"
+              >Feed</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Log out</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <main class="flex-column">
+        <div class="createSort gap-5 d-flex justify-content-between mb-2">
+          <div class="modal-dialog">
+            <div class="modal-content usersMessageModal">
+              <div class="modal-header p-4">
+                <h1 class="modal-title fs-5" id="usersModalLabel">Users</h1>
+              </div>
+              <div class="modal-body" id="userModalBody"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

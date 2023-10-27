@@ -11974,13 +11974,15 @@ button,
 
 html::-webkit-scrollbar,
 .modal-comments::-webkit-scrollbar,
-textarea::-webkit-scrollbar {
+textarea::-webkit-scrollbar,
+.usersMessageModal::-webkit-scrollbar {
   width: 15px;
 }
 
 html::-webkit-scrollbar-thumb,
 .modal-comments::-webkit-scrollbar-thumb,
-textarea::-webkit-scrollbar-thumb {
+textarea::-webkit-scrollbar-thumb,
+.usersMessageModal::-webkit-scrollbar-thumb {
   background-color: rgba(148, 148, 156, 0.431372549);
   border-radius: 4px;
 }
@@ -11995,10 +11997,6 @@ textarea::-webkit-scrollbar-thumb {
   transition: ease-in-out 200ms;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   border-radius: 20px;
-}
-
-.createSort > *:hover {
-  transform: scale(1.06);
 }
 
 .modal-reactions {
@@ -12115,6 +12113,19 @@ textarea::-webkit-scrollbar-thumb {
   border-radius: 50%;
   object-fit: cover;
   margin-left: 1rem;
+}
+
+.usersMessageModal {
+  max-height: 80vh;
+  overflow-y: scroll;
+  padding: 0 2rem 2rem;
+  min-width: 350px;
+  width: 30vw;
+}
+
+.modal-dialog {
+  overflow: hidden;
+  border-radius: 50px;
 }
 
 /* MEDIA QUERIES */
