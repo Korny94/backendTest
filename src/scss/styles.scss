@@ -9,6 +9,15 @@ nav {
   z-index: 2;
 }
 
+.messagesIcon {
+  height: 3rem;
+  transition: ease-in-out 300ms;
+}
+
+.messagesIcon:hover {
+  transform: scale(1.1);
+}
+
 main {
   min-height: 80vh;
   display: flex;
@@ -17,11 +26,9 @@ main {
   margin-top: 5rem;
 }
 
-.logoLink {
-  text-decoration: none;
-  color: black;
+.logo {
+  height: 3rem;
   margin-left: 1rem;
-  font-size: 1.5rem;
 }
 
 #registerModal,

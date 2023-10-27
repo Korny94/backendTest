@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Feed</title>
-    <link rel="icon" type="image/x-icon" href="../assets/favicon.png" />
+    <link rel="icon" type="image/x-icon" href="../assets/logo.png" />
     <link rel="stylesheet" href="../dist/css/styles.css" />
     <script src="../src/scss/bootstrap.bundle.min.js" defer></script>
     <script
@@ -21,7 +21,9 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
-      <a href="/html/feed.html" class="logoLink">X.O </a>
+      <a href="/html/feed.html">
+        <img src="../assets/logo.png" alt="logo" class="logo" />
+      </a>
       <button
         class="navbar-toggler me-3"
         type="button"
@@ -37,24 +39,39 @@
         class="collapse navbar-collapse justify-content-end me-3"
         id="navbarSupportedContent"
       >
-        <ul class="nav nav-pills d-flex justify-content-center">
-          <li class="nav-item">
-            <a class="nav-link" href="../html/myProfile.html">Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../html/messages.html">Messages</a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link active"
-              aria-current="page"
-              href="/html/feed.html"
-              >Feed</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../index.html">Log out</a>
-          </li>
+        <ul class="nav nav-pills d-flex justify-content-center gap-4">
+          <a href="../html/myProfile.html">
+            <img
+              src="../assets/profile.png"
+              alt="profile"
+              class="messagesIcon"
+              title="Profile"
+            />
+          </a>
+          <a href="messages.html">
+            <img
+              src="../assets/messages.png"
+              alt="messages"
+              class="messagesIcon"
+              title="Messages"
+            />
+          </a>
+          <a href="/html/feed.html">
+            <img
+              src="../assets/feed.png"
+              alt="feed"
+              class="messagesIcon"
+              title="Feed"
+            />
+          </a>
+          <a href="../index.html">
+            <img
+              src="../assets/logInOut.png"
+              alt="logout"
+              class="messagesIcon"
+              title="Log out"
+            />
+          </a>
         </ul>
       </div>
     </nav>
