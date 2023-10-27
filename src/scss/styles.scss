@@ -99,13 +99,18 @@ button,
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 }
 
-.sendComment {
+.sendComment,
+.sendMessage {
   position: absolute;
   width: 30px;
   right: 2.7rem;
   margin-top: 3.2rem;
   cursor: pointer;
   transition-duration: 300ms;
+}
+
+.sendMessage {
+  margin-top: 0rem;
 }
 
 .sendComment:hover {
@@ -120,14 +125,18 @@ button,
 html::-webkit-scrollbar,
 .modal-comments::-webkit-scrollbar,
 textarea::-webkit-scrollbar,
-.usersMessageModal::-webkit-scrollbar {
+.usersMessageModal::-webkit-scrollbar,
+#userModalBody::-webkit-scrollbar,
+#messageContainer::-webkit-scrollbar {
   width: 15px;
 }
 
 html::-webkit-scrollbar-thumb,
 .modal-comments::-webkit-scrollbar-thumb,
 textarea::-webkit-scrollbar-thumb,
-.usersMessageModal::-webkit-scrollbar-thumb {
+.usersMessageModal::-webkit-scrollbar-thumb,
+#userModalBody::-webkit-scrollbar-thumb,
+#messageContainer::-webkit-scrollbar-thumb {
   background-color: #94949c6e;
   border-radius: 4px;
 }
@@ -244,6 +253,7 @@ textarea::-webkit-scrollbar-thumb,
   border-radius: 40px;
   width: 100%;
   height: 5rem;
+  padding-right: 1.5rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: ease-in-out 300ms;
@@ -261,17 +271,37 @@ textarea::-webkit-scrollbar-thumb,
   margin-left: 1rem;
 }
 
-.usersMessageModal {
-  max-height: 80vh;
-  overflow-y: scroll;
-  padding: 0 2rem 2rem;
-  min-width: 350px;
-  width: 30vw;
+.messageModal {
+  width: 350px;
 }
 
-.modal-dialog {
-  overflow: hidden;
-  border-radius: 50px;
+.messageContainer {
+  width: 80vw;
+  overflow: scroll;
+  align-items: start;
+  margin-bottom: 3rem;
+}
+
+#userModalBody {
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+  width: 80vw;
+  align-items: center;
+  padding: 1rem 1rem 2rem 1rem;
+}
+
+#modalDialog {
+  width: 400px;
+  margin: 2rem;
+}
+
+#modalDialog > * {
+  height: 400px;
+}
+
+.allMessagesContainer {
+  width: 380px;
 }
 
 /* MEDIA QUERIES */
@@ -292,6 +322,19 @@ textarea::-webkit-scrollbar-thumb,
     width: 180px;
     height: 180px;
     top: 15rem;
+  }
+
+  #userModalBody {
+    width: 100vw;
+  }
+
+  #userModalBody * {
+    font-size: 1.4rem;
+  }
+
+  #userModalBody * img {
+    width: 30px;
+    height: 30px;
   }
 }
 

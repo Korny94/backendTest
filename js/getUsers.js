@@ -16,6 +16,7 @@ async function getUsers() {
     console.log(json);
 
     const userModalBody = document.querySelector("#userModalBody");
+    userModalBody.innerHTML = "";
 
     json.forEach((element) => {
       const userAvatar = element.url
