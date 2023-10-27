@@ -5,6 +5,30 @@ import { addReactionListeners } from "../js/reactions.js";
 import { getReactionCounts } from "../js/reactions.js";
 import { deletePostFunction } from "./deletePost.js";
 
+async function getUser() {
+  try {
+    const token = localStorage.getItem("token");
+    const userResponse = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await fetch(
+      "https://backendtest.local/wp-json/wp/v2/users/me",
+      userResponse
+    );
+    const json = await response.json();
+    console.log(json);
+    localStorage.setItem("id", json.id);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+getUser();
+
 async function fetchPosts() {
   try {
     const token = localStorage.getItem("token");

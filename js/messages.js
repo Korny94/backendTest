@@ -30,7 +30,7 @@ async function getUsers() {
 
           <div class="d-flex align-items-center gap-3 userModalLink" title="${element.id}" id="user_${element.id}">
               <img class="userModalImg" src="${userAvatar}" alt="User avatar">
-              <h2 class="userModalName">${element.name}</h2>
+              <h4 class="userModalName">${element.name}</h4>
           </div>
           `);
       userModalBody.appendChild(userModal);
@@ -52,12 +52,13 @@ getUsers();
 async function createMessage() {
   try {
     const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
     const otherProfile = localStorage.getItem("otherProfile");
     const otherProfileName = localStorage.getItem("otherProfileName");
     const messageResponse = {
       method: "POST",
       body: JSON.stringify({
-        title: otherProfileName,
+        title: otherProfileName + " & " + username,
         status: "publish",
         content: "",
         acf: {
@@ -74,9 +75,9 @@ async function createMessage() {
       messageResponse
     );
     const json = await response.json();
-    console.log(json);
 
     location.reload();
+    console.log(json);
   } catch (error) {
     console.error(error);
   }
@@ -99,9 +100,9 @@ async function getMessagesByUsernameInTitle() {
     const posts = await response.json();
 
     // Filter the matching posts
-    const myId = localStorage.getItem("id");
-    const matchingPosts = posts.filter(
-      (post) => myId === post.author.toString()
+    const username = localStorage.getItem("username");
+    const matchingPosts = posts.filter((post) =>
+      post.title.rendered.toLowerCase().includes(username.toLowerCase())
     );
 
     // Sort the matchingPosts by postDate
@@ -182,23 +183,19 @@ function displaySortedPosts(sortedPosts) {
     const postId = post.id;
 
     const msgTitle = post.title.rendered;
-    const messages = post.excerpt.rendered ? post.excerpt.rendered : "";
 
     postContainer.innerHTML = DOMPurify.sanitize(`
               <div class="modal d-flex position-relative allMessageModal" tabindex="-1">
                   <div class="modal-dialog" id="modalDialog">
                       <div class="modal-content postModal">
 
-                          <div class="modal-title m-5 mb-1 mt-4">
+                          <div class="modal-title m-5 mb-2 mt-2">
                               <h5 class="text-center m-0">${msgTitle}</h5>
                           </div>
-                          <div class="modal-body ms-4 me-4">
-                              ${messages}
-                          </div>
-                          <div class="modal-comments">
+                          <div class="modal-comments" id="messageComments">
                               ${commentHTML}
                           </div>
-                          <div class="modal-footer mb-1">
+                          <div class="modal-footer mb-1" id="messageFooter">
                               <textarea class="commentInput" id="commentInput_${postId}" placeholder="Type a message"></textarea>
                               <img class="sendMessage" id="sendCommentBtn_${postId}" src="../assets/send.png" alt="Send" />
                           </div>
@@ -235,7 +232,6 @@ function displaySortedPosts(sortedPosts) {
   });
 }
 
-// Call the main function to start the process
 getMessagesByUsernameInTitle();
 
 async function getSpecificMessage() {
@@ -255,12 +251,12 @@ async function getSpecificMessage() {
 
     const matchingPosts = posts.filter((post) => {
       const postTitle = post.title.rendered;
-      const myId = localStorage.getItem("id");
+      const username = localStorage.getItem("username");
       const otherProfileName = localStorage.getItem("otherProfileName");
 
       // Check if the post title contains both usernames
       if (
-        myId == post.author.toString() &&
+        postTitle.toLowerCase().includes(username.toLowerCase()) &&
         postTitle.toLowerCase().includes(otherProfileName.toLowerCase())
       ) {
         return true; // Include this post in the matchingPosts array
@@ -271,6 +267,7 @@ async function getSpecificMessage() {
 
     // Check if there are matching posts
     if (matchingPosts.length > 0) {
+      console.log(matchingPosts);
     } else {
       // No posts contain both usernames
       console.log("no message");

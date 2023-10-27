@@ -11991,7 +11991,7 @@ textarea::-webkit-scrollbar,
 #userModalBody::-webkit-scrollbar,
 #messageContainer::-webkit-scrollbar,
 #userModalBody2::-webkit-scrollbar {
-  width: 15px;
+  height: 10px;
 }
 
 html::-webkit-scrollbar-thumb,
@@ -12114,10 +12114,13 @@ textarea::-webkit-scrollbar-thumb,
 }
 
 .userModalLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 40px;
   width: 100%;
-  height: 5rem;
+  height: 3rem;
   padding-right: 1.5rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -12129,8 +12132,8 @@ textarea::-webkit-scrollbar-thumb,
 }
 
 .userModalImg {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
   margin-left: 1rem;
@@ -12143,9 +12146,9 @@ textarea::-webkit-scrollbar-thumb,
 .messageContainer {
   width: 100vw;
   overflow: scroll;
+  overflow-y: hidden;
   align-items: start;
-  margin-bottom: 3rem;
-  padding: 0;
+  padding: 0 !important;
   margin: 0;
 }
 
@@ -12153,10 +12156,15 @@ textarea::-webkit-scrollbar-thumb,
   display: flex;
   flex-direction: row;
   overflow: scroll;
+  overflow-y: hidden;
   width: 100vw;
+  height: 4.5rem;
   align-items: center;
-  padding: 1rem 1rem 2rem 2rem;
-  gap: 1.2rem;
+  justify-content: start;
+  padding: 0;
+  margin: 0;
+  padding-left: 2rem;
+  gap: 1.5rem;
 }
 
 #modalDialog {
@@ -12165,11 +12173,25 @@ textarea::-webkit-scrollbar-thumb,
 }
 
 #modalDialog > * {
-  height: 400px;
+  height: 340px;
 }
 
 .allMessagesContainer {
   width: 380px;
+}
+
+.userModalName {
+  margin: 0;
+}
+
+#messageComments {
+  margin-bottom: 7.3rem;
+}
+
+#messageFooter {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 /* MEDIA QUERIES */
