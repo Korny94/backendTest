@@ -86,7 +86,7 @@ ready.addEventListener("click", () => {
 
 async function createMatch() {
   try {
-    const url = "https://backendtest.local/wp-json/wp/v2/game1";
+    const url = "https://backendtest.local/wp-json/wp/v2/game1?_embed=true";
     const username = localStorage.getItem("username");
     const otherProfileName = localStorage.getItem("otherProfileName");
     const otherProfile = localStorage.getItem("otherProfile");
@@ -94,7 +94,7 @@ async function createMatch() {
     const gameResponse = {
       method: "POST",
       body: JSON.stringify({
-        title: username + " VS. " + otherProfileName,
+        title: otherProfileName,
         status: "publish",
         acf: {
           additional_users: otherProfile,
@@ -138,17 +138,20 @@ async function getMatches() {
     loader.classList.remove("loader");
 
     console.log(posts);
-    localStorage.setItem("matchId", posts[0].id);
-    localStorage.setItem("player1", posts[0].author);
-    localStorage.setItem("player2", posts[0].acf.additional_users);
 
     // Filter the matching posts
     const matchingPosts = posts.filter((post) => {
       if (
-        post.title.rendered.toLowerCase().includes(username.toLowerCase()) &&
-        post.title.rendered
+        (post.title.rendered.toLowerCase().includes(username.toLowerCase()) &&
+          post._embedded.author[0].name
+            .toLowerCase()
+            .includes(otherProfileName.toLowerCase())) ||
+        (post.title.rendered
           .toLowerCase()
-          .includes(otherProfileName.toLowerCase())
+          .includes(otherProfileName.toLowerCase()) &&
+          post._embedded.author[0].name
+            .toLowerCase()
+            .includes(username.toLowerCase()))
       ) {
         return true;
       } else {
@@ -158,13 +161,16 @@ async function getMatches() {
     // Check if there are matching posts
     if (matchingPosts.length > 0) {
       console.log(matchingPosts);
+      localStorage.setItem("matchId", posts[0].id);
+      localStorage.setItem("player1", posts[0].author);
+      localStorage.setItem("player2", posts[0].acf.additional_users);
     } else {
       // No posts contain both usernames
       console.log("match not found");
       createMatch();
     }
     versus.innerHTML = DOMPurify.sanitize(`
-${username} - ${otherProfileName}
+${matchingPosts[0]._embedded.author[0].name} - ${matchingPosts[0].title.rendered}
 `);
     score.innerHTML = DOMPurify.sanitize(`
     <div class="d-flex scoreboard">
@@ -177,6 +183,10 @@ ${username} - ${otherProfileName}
       matchingPosts[0].acf.player1ready === true &&
       matchingPosts[0].acf.player2ready === true
     ) {
+      const pointPlayer1 = matchingPosts[0].acf.score1;
+      const pointPlayer2 = matchingPosts[0].acf.score2;
+      const point1 = pointPlayer1 + 1;
+      const point2 = pointPlayer2 + 1;
       const player1choice = matchingPosts[0].acf.player1choice;
       const player2choice = matchingPosts[0].acf.player2choice;
       if (player1 === id) {
@@ -203,7 +213,7 @@ ${username} - ${otherProfileName}
         ${username} Wins!     
         `);
           setTimeout(() => {
-            newGame();
+            newGame(pointPlayer1, point2);
           }, 3000);
         } else {
           console.log("Player 2 Wins!");
@@ -211,7 +221,7 @@ ${username} - ${otherProfileName}
             ${otherProfileName} Wins!
             `);
           setTimeout(() => {
-            newGame();
+            newGame(point1, pointPlayer2);
           }, 3000);
         }
       } else if (
@@ -225,7 +235,7 @@ ${username} - ${otherProfileName}
                 ${otherProfileName} Wins! Wait for new game
                 `);
           setTimeout(() => {
-            newGame();
+            newGame(point1, pointPlayer2);
           }, 3000);
         } else {
           console.log("Player 1 Wins!");
@@ -233,7 +243,7 @@ ${username} - ${otherProfileName}
             ${username} Wins! Wait for new game
             `);
           setTimeout(() => {
-            newGame();
+            newGame(pointPlayer1, point2);
           }, 3000);
         }
       } else if (player1choice === player2choice) {
@@ -242,7 +252,7 @@ ${username} - ${otherProfileName}
         Draw! Wait for new game 
         `);
         setTimeout(() => {
-          newGame();
+          newGame(pointPlayer1, pointPlayer2);
         }, 3000);
       }
 
@@ -279,13 +289,15 @@ ${username} - ${otherProfileName}
 
 getMatches();
 
-async function newGame() {
+async function newGame(point1, point2) {
   const newGameResponse = {
     method: "PUT",
     body: JSON.stringify({
       acf: {
         player1ready: false,
         player2ready: false,
+        score1: point1,
+        score2: point2,
       },
     }),
     headers: {
