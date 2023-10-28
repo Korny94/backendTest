@@ -10,8 +10,7 @@ const matchId = localStorage.getItem("matchId");
 const loader = document.querySelector("#loader");
 const waitingOn = document.querySelector("#waitingOn");
 const choicesContainer = document.querySelector("#choicesContainer");
-const player1choice = localStorage.getItem("player1choice");
-const player2choice = localStorage.getItem("player2choice");
+const question = document.querySelector("#question");
 
 function choices(choice) {
   const choiceName = choice.getAttribute("alt");
@@ -115,6 +114,10 @@ async function createMatch() {
 }
 
 async function getMatches() {
+  waitingOn.style.color = "green";
+  waitingOn.innerHTML = DOMPurify.sanitize(`
+    Ready! Click on your choice and then click ready!
+    `);
   try {
     const url = "https://backendtest.local/wp-json/wp/v2/game1?_embed=true";
     const username = localStorage.getItem("username");
@@ -155,8 +158,6 @@ async function getMatches() {
     // Check if there are matching posts
     if (matchingPosts.length > 0) {
       console.log(matchingPosts);
-      localStorage.setItem("player1choice", matchingPosts[0].acf.player1choice);
-      localStorage.setItem("player2choice", matchingPosts[0].acf.player2choice);
     } else {
       // No posts contain both usernames
       console.log("match not found");
@@ -176,24 +177,65 @@ ${username} - ${otherProfileName}
       matchingPosts[0].acf.player1ready === true &&
       matchingPosts[0].acf.player2ready === true
     ) {
+      const player1choice = matchingPosts[0].acf.player1choice;
+      const player2choice = matchingPosts[0].acf.player2choice;
+      if (player1 === id) {
+        question.src = `../assets/${player2choice}.png`;
+        question.style.transform = "scaleX(-1)";
+        myChoice.innerHTML = DOMPurify.sanitize(`
+        <img style="width: 80px" src="../assets/${player1choice}.png" alt="${player1choice}" id="chosen">
+        `);
+      } else {
+        question.src = `../assets/${player1choice}.png`;
+        question.style.transform = "scaleX(-1)";
+        myChoice.innerHTML = DOMPurify.sanitize(`
+        <img style="width: 80px" src="../assets/${player2choice}.png" alt="${player2choice}" id="chosen">
+        `);
+      }
       if (
         (player1choice === "rock" && player2choice === "scissors") ||
         (player1choice === "paper" && player2choice === "rock") ||
         (player1choice === "scissors" && player2choice === "paper")
       ) {
-        console.log("Player 1 Wins!");
-        waitingOn.innerHTML = DOMPurify.sanitize(`
+        if (player1 === id) {
+          console.log("Player 1 Wins!");
+          waitingOn.innerHTML = DOMPurify.sanitize(`
         ${username} Wins!     
         `);
+          setTimeout(() => {
+            newGame();
+          }, 3000);
+        } else {
+          console.log("Player 2 Wins!");
+          waitingOn.innerHTML = DOMPurify.sanitize(`
+            ${otherProfileName} Wins!
+            `);
+          setTimeout(() => {
+            newGame();
+          }, 3000);
+        }
       } else if (
         (player1choice === "rock" && player2choice === "paper") ||
         (player1choice === "paper" && player2choice === "scissors") ||
         (player1choice === "scissors" && player2choice === "rock")
       ) {
-        console.log("Player 2 Wins!");
-        waitingOn.innerHTML = DOMPurify.sanitize(`
-        ${otherProfileName} Wins!
-        `);
+        if (player1 === id) {
+          console.log("Player 2 Wins!");
+          waitingOn.innerHTML = DOMPurify.sanitize(`
+                ${otherProfileName} Wins! Wait for new game
+                `);
+          setTimeout(() => {
+            newGame();
+          }, 3000);
+        } else {
+          console.log("Player 1 Wins!");
+          waitingOn.innerHTML = DOMPurify.sanitize(`
+            ${username} Wins! Wait for new game
+            `);
+          setTimeout(() => {
+            newGame();
+          }, 3000);
+        }
       } else if (player1choice === player2choice) {
         console.log("Draw!");
         waitingOn.innerHTML = DOMPurify.sanitize(`
@@ -211,21 +253,22 @@ ${username} - ${otherProfileName}
         `Waiting on ${otherProfileName}`
       );
       loader.classList.add("loader");
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
 
       choicesContainer.style.opacity = "0";
       ready.style.display = "none";
-
-      setTimeout(() => {
-        location.reload();
-      }, 5000);
     } else if (player2 === id && matchingPosts[0].acf.player2ready === true) {
       waitingOn.innerHTML = DOMPurify.sanitize(
         `Waiting on ${otherProfileName}`
       );
       loader.classList.add("loader");
-
       choicesContainer.style.opacity = "0";
       ready.style.display = "none";
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
     } else {
       console.log("Waiting on you");
     }
@@ -237,8 +280,6 @@ ${username} - ${otherProfileName}
 getMatches();
 
 async function newGame() {
-  localStorage.removeItem("player1choice");
-  localStorage.removeItem("player2choice");
   const newGameResponse = {
     method: "PUT",
     body: JSON.stringify({
@@ -260,5 +301,5 @@ async function newGame() {
   console.log(json);
   setTimeout(() => {
     location.reload();
-  }, 4000);
+  }, 2500);
 }
