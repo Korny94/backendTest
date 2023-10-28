@@ -11910,6 +11910,7 @@ button,
 .modal-comments {
   max-height: 220px;
   overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 .modal-comment {

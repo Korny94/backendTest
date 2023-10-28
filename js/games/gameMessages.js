@@ -44,25 +44,16 @@ async function getMessagesByUsernameInTitle() {
           .includes(otherProfileName.toLowerCase())
     );
 
-    // Sort the matchingPosts by postDate
-    const sortedPosts = matchingPosts.sort((postA, postB) => {
-      const postDateA = findPostDate(postA); // Get postDate for postA
-      const postDateB = findPostDate(postB); // Get postDate for postB
-
-      return new Date(postDateB) - new Date(postDateA); // Sort in descending order
-    });
-
-    // Display the sorted posts
-    displaySortedPosts(sortedPosts);
+    displaySortedPosts(matchingPosts);
   } catch (error) {
     console.error("Error fetching posts:", error);
   }
 }
 
-function displaySortedPosts(sortedPosts) {
+function displaySortedPosts(matchingPosts) {
   messageContainer.innerHTML = ""; // Clear existing content
 
-  sortedPosts.forEach((post) => {
+  matchingPosts.forEach((post) => {
     const postContainer = document.createElement("div"); // Create a new container for each post
     postContainer.classList.add("messagesContainer"); // Add a class to the container
 
@@ -78,12 +69,6 @@ function displaySortedPosts(sortedPosts) {
 
       // Compare comments based on the commentDate
       return new Date(commentDateA) - new Date(commentDateB);
-    });
-    const modalCommentsList = document.querySelectorAll(".modal-comments");
-    modalCommentsList.forEach((modalComments) => {
-      if (modalComments) {
-        modalComments.scrollTop = modalComments.scrollHeight;
-      }
     });
 
     comments.forEach((comment) => {
@@ -120,31 +105,14 @@ function displaySortedPosts(sortedPosts) {
                   </div>
               </div>
           `);
+    const modalComments = postContainer.querySelector("#messageComments");
 
+    if (modalComments) {
+      setTimeout(() => {
+        modalComments.scrollTop = modalComments.scrollHeight;
+      }, 500);
+    }
     messageContainer.appendChild(postContainer); // Append each post container to the main container
     attachCommentEventListener(postId);
-
-    // Find the date of the first reply with a date
-    let postDate = null;
-    if (post._embedded && post._embedded.replies) {
-      const replies = post._embedded.replies[0];
-
-      for (let i = 0; i < replies.length; i++) {
-        const reply = replies[i];
-        if (reply.date) {
-          postDate = reply.date;
-          break; // Stop searching after finding the first reply with a date
-        }
-      }
-    }
-
-    // Use postDate as needed
-    if (postDate) {
-      // You can format the date or use it as necessary
-      console.log(postDate);
-    } else {
-      // No posts contain both usernames
-      console.log("no message");
-    }
   });
 }
