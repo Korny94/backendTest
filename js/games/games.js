@@ -37,7 +37,7 @@ async function getUsers(modalBody) {
       userModal.innerHTML = DOMPurify.sanitize(`
           <div class="d-flex align-items-center gap-3 userModalLink" title="${element.id}" id="otherProfile">
               <img class="userModalImg" src="${userAvatar}" alt="User avatar">
-              <h2 class="userModalName">${element.name}</h2>
+              <h5 class="userModalName">${element.name}</h5>
           </div>
           `);
       userModalBody.appendChild(userModal);

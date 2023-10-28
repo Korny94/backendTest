@@ -296,6 +296,9 @@ async function createMatch() {
     const response = await fetch(url, gameResponse);
     const json = await response.json();
     console.log(json);
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
   } catch (error) {
     console.error(error);
   }
