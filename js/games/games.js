@@ -1,4 +1,12 @@
-export async function getUsers(modalBody) {
+const rockPaperScissors = document.querySelector("#rockPaperScissors");
+
+const userModalBody3 = "userModalBody3";
+rockPaperScissors.addEventListener("click", () => {
+  localStorage.setItem("game", "rockPaperScissors");
+  getUsers(userModalBody3);
+});
+
+async function getUsers(modalBody) {
   try {
     const token = localStorage.getItem("token");
     const userResponse = {
@@ -27,26 +35,21 @@ export async function getUsers(modalBody) {
       const userModal = document.createElement("div");
       userModal.classList.add("userModal");
       userModal.innerHTML = DOMPurify.sanitize(`
-        <div class="d-flex align-items-center gap-3 userModalLink" title="${element.id}" id="otherProfile">
-            <img class="userModalImg" src="${userAvatar}" alt="User avatar">
-            <h2 class="userModalName">${element.name}</h2>
-        </div>
-        `);
+          <div class="d-flex align-items-center gap-3 userModalLink" title="${element.id}" id="otherProfile">
+              <img class="userModalImg" src="${userAvatar}" alt="User avatar">
+              <h2 class="userModalName">${element.name}</h2>
+          </div>
+          `);
       userModalBody.appendChild(userModal);
 
       const otherProfile = userModal.querySelector("#otherProfile");
       otherProfile.onclick = function () {
-        const owner = otherProfile.getAttribute("title");
+        localStorage.setItem("otherProfileName", element.name);
+        localStorage.setItem("otherProfile", element.id);
 
-        localStorage.setItem("otherProfile", owner);
-        const id = localStorage.getItem("id");
+        const game = localStorage.getItem("game");
 
-        let url;
-        if (id === owner) {
-          url = "../html/myProfile.html";
-        } else {
-          url = "../html/profile.html";
-        }
+        const url = `../html/${game}.html`;
 
         // Redirect to the appropriate page
         window.location.href = url;
@@ -55,12 +58,4 @@ export async function getUsers(modalBody) {
   } catch (error) {
     console.error(error);
   }
-}
-
-const getUsersBtn = document.querySelector("#getUsersBtn");
-if (getUsersBtn) {
-  getUsersBtn.addEventListener("click", () => {
-    const modalBody = "userModalBody";
-    getUsers(modalBody);
-  });
 }
