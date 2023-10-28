@@ -187,8 +187,8 @@ function displaySortedPosts(sortedPosts) {
     postContainer.innerHTML = DOMPurify.sanitize(`
               <div class="modal d-flex position-relative allMessageModal" tabindex="-1">
                   <div class="modal-dialog" id="modalDialog">
-                      <div class="modal-content postModal">
-                          <div class="modal-comments" id="messageComments">
+                      <div class="modal-content postModal pt-3">
+                          <div class="modal-comments pb-2" id="messageComments">
                               ${commentHTML}
                           </div>
                           <div class="modal-footer mb-1" id="messageFooter">

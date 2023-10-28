@@ -12260,7 +12260,7 @@ textarea::-webkit-scrollbar-thumb,
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 40vh;
+  bottom: 50vh;
 }
 
 .gameImage {
@@ -12274,6 +12274,12 @@ textarea::-webkit-scrollbar-thumb,
 
 /* MEDIA QUERIES */
 @media (max-width: 767.8px) {
+  .gameContainer {
+    margin-top: 8rem;
+  }
+  #choicesContainer {
+    min-width: 93vw;
+  }
   #myPostsContainer {
     top: 27rem;
   }
