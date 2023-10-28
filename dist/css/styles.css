@@ -12234,10 +12234,11 @@ textarea::-webkit-scrollbar-thumb,
 .choice * {
   transition: ease-in-out 300ms;
   cursor: pointer;
+  height: 80px;
 }
 
 .choice *:hover {
-  transform: scale(1.4);
+  transform: scale(1.15);
 }
 
 .scoreboard {
@@ -12248,6 +12249,27 @@ textarea::-webkit-scrollbar-thumb,
 
 #question {
   width: 80px;
+}
+
+.gameContainer {
+  height: 80vh;
+  margin-bottom: 2rem;
+}
+
+.rockPaperScissorsLoader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 40vh;
+}
+
+.gameImage {
+  height: 30vh;
+  width: 30vh;
+}
+
+#choicesContainer {
+  min-width: 600px;
 }
 
 /* MEDIA QUERIES */

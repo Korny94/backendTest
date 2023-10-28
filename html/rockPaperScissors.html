@@ -82,15 +82,15 @@
     </nav>
     <main class="flex-column">
       <div class="gameContainer text-center">
-        <h1 class="mb-5">Rock-Paper-Scissors</h1>
+        <!-- <h3 class="mb-3">Rock-Paper-Scissors</h3> -->
         <h3 id="versus"></h3>
-        <h2 id="score"></h2>
-        <div id="waiting mt-5">
-            <h3 id="waitingOn"></h3>
-            <div class="loader m-auto mt-5" id="loader"></div>
+        <h3 id="score"></h3>
+        <div id="waiting">
+            <h4 class="mb-4" id="waitingOn"></h4>
+            <div class="loader m-auto rockPaperScissorsLoader" id="loader"></div>
         </div>
         <div class="d-flex align-items-center justify-content-between" id="choicesContainer">
-            <div class="choices mt-5">
+            <div class="choices" id="choices">
                 <div class="choice" >
                     <img src="../assets/rock.png" alt="rock" id="rock"/>
                 </div>
@@ -108,7 +108,7 @@
                 <img src="../assets/question.png" alt="question" id="question" />
             </div>
         </div>
-        <button class="btn btn-primary mt-5" id="ready">Ready!</button>
+        <button class="btn btn-primary disabled" id="ready">Ready!</button>
     </main>
   </body>
 </html>
