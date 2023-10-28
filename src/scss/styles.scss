@@ -42,11 +42,6 @@ button,
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
 }
 
-.modal-content {
-  border-radius: 30px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
 #modalImage {
   max-width: 100%;
 }
@@ -58,7 +53,7 @@ button,
 }
 
 .modal-comments {
-  max-height: 200px;
+  max-height: 220px;
   overflow-y: scroll;
 }
 
@@ -278,7 +273,8 @@ textarea::-webkit-scrollbar-thumb,
   height: 4rem;
 }
 
-.userModalLink:hover {
+.userModalLink:hover,
+.userModalLink2:hover {
   transform: scale(1.03);
 }
 
@@ -329,6 +325,9 @@ textarea::-webkit-scrollbar-thumb,
 #modalDialog {
   width: 400px;
   margin: 2rem;
+  overflow: hidden;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 #modalDialog > * {
@@ -341,10 +340,6 @@ textarea::-webkit-scrollbar-thumb,
 
 .userModalName {
   margin: 0;
-}
-
-#messageComments {
-  margin-bottom: 7.3rem;
 }
 
 #messageFooter {
@@ -456,6 +451,41 @@ textarea::-webkit-scrollbar-thumb,
     width: 260px;
     margin: 1rem;
   }
+}
+
+#chat {
+  padding: 0.1rem 1.3rem 0.3rem 1.3rem;
+  font-size: 1.2rem;
+  position: fixed;
+  top: 6.5rem;
+  left: 0;
+  margin: 1rem;
+  z-index: 2;
+  transition: ease-in-out 300ms;
+  border: 0.5px solid black;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+#chat:hover {
+  transform: scale(1.1);
+}
+
+#ready {
+  transform: scale(1.4);
+  transition: ease-in-out 300ms;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  border: 0.5px solid black;
+}
+
+#ready:hover {
+  transform: scale(1.5);
+}
+
+#messageContainer2 {
+  position: fixed;
+  z-index: 2;
+  top: 9rem;
+  left: 0;
 }
 
 /* LOADING */

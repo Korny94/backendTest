@@ -15,6 +15,8 @@
     ></script>
     <script src="../js/games/rockPaperScissors.js" defer type="module"></script>
     <script src="../js/getUsers.js" defer type="module"></script>
+    <script src="../js/games/gameMessages.js" defer type="module"></script>
+    <script src="../js/postComment.js" defer type="module"></script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
@@ -81,6 +83,8 @@
       </div>
     </nav>
     <main class="flex-column">
+        <button class="btn btn-primary" id="chat">Chat</button>
+        <div id="messageContainer2"></div>
       <div class="gameContainer text-center">
         <!-- <h3 class="mb-3">Rock-Paper-Scissors</h3> -->
         <h3 id="versus"></h3>

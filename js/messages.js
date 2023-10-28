@@ -188,15 +188,11 @@ function displaySortedPosts(sortedPosts) {
               <div class="modal d-flex position-relative allMessageModal" tabindex="-1">
                   <div class="modal-dialog" id="modalDialog">
                       <div class="modal-content postModal">
-
-                          <div class="modal-title m-5 mb-2 mt-2">
-                              <h5 class="text-center m-0">${msgTitle}</h5>
-                          </div>
                           <div class="modal-comments" id="messageComments">
                               ${commentHTML}
                           </div>
                           <div class="modal-footer mb-1" id="messageFooter">
-                              <textarea class="commentInput" id="commentInput_${postId}" placeholder="Type a message"></textarea>
+                              <textarea class="commentInput" id="commentInput_${postId}" placeholder="${msgTitle}"></textarea>
                               <img class="sendMessage" id="sendCommentBtn_${postId}" src="../assets/send.png" alt="Send" />
                           </div>
                       </div>

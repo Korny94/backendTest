@@ -6,15 +6,11 @@ const scissors = document.querySelector("#scissors");
 const myChoice = document.querySelector("#myChoice");
 const ready = document.querySelector("#ready");
 const token = localStorage.getItem("token");
-const matchId = localStorage.getItem("matchId");
 const loader = document.querySelector("#loader");
 const waitingOn = document.querySelector("#waitingOn");
 const choicesContainer = document.querySelector("#choicesContainer");
 const question = document.querySelector("#question");
 const choicesDiv = document.querySelector("#choices");
-const id = localStorage.getItem("id");
-const player2 = localStorage.getItem("player2");
-const player1 = localStorage.getItem("player1");
 const otherProfileName = localStorage.getItem("otherProfileName");
 const otherProfile = localStorage.getItem("otherProfile");
 const username = localStorage.getItem("username");
@@ -36,6 +32,14 @@ async function getMatches() {
     };
     const response = await fetch(url, gameResponse);
     const posts = await response.json();
+    posts.forEach((post) => {
+      const postId = post.id;
+      const author = post.author;
+      const additionalUsers = post.acf.additional_users;
+      localStorage.setItem("matchId", postId.toString());
+      localStorage.setItem("player1", author.toString());
+      localStorage.setItem("player2", additionalUsers.toString());
+    });
     loader.classList.remove("loader");
 
     console.log(posts);
@@ -62,9 +66,6 @@ async function getMatches() {
     // Check if there are matching posts
     if (matchingPosts.length > 0) {
       console.log(matchingPosts);
-      localStorage.setItem("matchId", posts[0].id);
-      localStorage.setItem("player1", posts[0].author);
-      localStorage.setItem("player2", posts[0].acf.additional_users);
     } else {
       // No posts contain both usernames
       console.log("match not found");
@@ -80,6 +81,9 @@ async function getMatches() {
       </div>
       `);
 
+    const id = localStorage.getItem("id");
+    const player1 = localStorage.getItem("player1");
+    const player2 = localStorage.getItem("player2");
     if (
       matchingPosts[0].acf.player1ready === true &&
       matchingPosts[0].acf.player2ready === true
@@ -118,7 +122,7 @@ async function getMatches() {
           ${username} Wins!     
           `);
           setTimeout(() => {
-            newGame(pointPlayer1, point2);
+            newGame(point1, pointPlayer2);
           }, 3000);
         } else {
           console.log("Player 2 Wins!");
@@ -142,7 +146,7 @@ async function getMatches() {
                   ${otherProfileName} Wins! Wait for a new game
                   `);
           setTimeout(() => {
-            newGame(point1, pointPlayer2);
+            newGame(pointPlayer1, point2);
           }, 3000);
         } else {
           console.log("Player 1 Wins!");
@@ -226,14 +230,25 @@ scissors.addEventListener("click", () => {
 });
 
 ready.addEventListener("click", () => {
+  const id = localStorage.getItem("id");
+  const player2 = localStorage.getItem("player2");
+  const player1 = localStorage.getItem("player1");
   ready.style.display = "none";
   choicesDiv.style.display = "none";
   const chosen = document.querySelector("#chosen").alt;
   localStorage.setItem("chosen", chosen);
+  const matchId = localStorage.getItem("matchId");
 
-  const url = `https://backendtest.local/wp-json/wp/v2/game1/${matchId}`;
+  const matchIdString = matchId.toString();
+  console.log(typeof matchIdString);
 
-  if (player1 === id) {
+  const url = `https://backendtest.local/wp-json/wp/v2/game1/${matchIdString}`;
+
+  console.log(typeof player1.toString(), typeof id.toString());
+
+  if (player1.toString() == id.toString()) {
+    localStorage.setItem("player1ready", true);
+
     const gameResponse = {
       method: "PUT",
       body: JSON.stringify({
@@ -248,12 +263,18 @@ ready.addEventListener("click", () => {
       },
     };
     fetch(url, gameResponse);
-    localStorage.setItem("player1ready", true);
+    getMatches();
+
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 500);
   }
-  if (player2 === id) {
+
+  console.log(typeof player2.toString(), typeof id.toString());
+
+  if (player2.toString() == id.toString()) {
+    localStorage.setItem("player2ready", true);
+
     const gameResponse = {
       method: "PUT",
       body: JSON.stringify({
@@ -268,10 +289,11 @@ ready.addEventListener("click", () => {
       },
     };
     fetch(url, gameResponse);
-    localStorage.setItem("player2ready", true);
+    getMatches();
+
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 500);
   }
 });
 
@@ -296,9 +318,15 @@ async function createMatch() {
     const response = await fetch(url, gameResponse);
     const json = await response.json();
     console.log(json);
+    const jsonId = json.id;
+    const author = json.author;
+    const additionalUsers = json.acf.additional_users;
+    localStorage.setItem("matchId", jsonId.toString());
+    localStorage.setItem("player1", author.toString());
+    localStorage.setItem("player2", additionalUsers.toString());
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 500);
   } catch (error) {
     console.error(error);
   }
@@ -320,8 +348,11 @@ async function newGame(point1, point2) {
       Authorization: `Bearer ${token}`,
     },
   };
+  const matchId = localStorage.getItem("matchId");
+  const matchIdString = matchId.toString();
+
   const response = await fetch(
-    `https://backendtest.local/wp-json/wp/v2/game1/${matchId}`,
+    `https://backendtest.local/wp-json/wp/v2/game1/${matchIdString}`,
     newGameResponse
   );
   const json = await response.json();
