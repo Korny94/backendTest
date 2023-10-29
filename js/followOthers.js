@@ -60,6 +60,8 @@ followBtn.addEventListener("click", () => {
 });
 
 async function follow() {
+  const theirFollowers = localStorage.getItem("theirFollowers");
+  let followersArray = JSON.parse(theirFollowers);
   if (followersArray !== null) {
     followersArray.push(numberId);
   } else {

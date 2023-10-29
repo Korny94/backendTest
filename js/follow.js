@@ -2,10 +2,6 @@ const id = localStorage.getItem("id");
 const url = `https://backendtest.local/wp-json/wp/v2/users/${id}`;
 const token = localStorage.getItem("token");
 const followBtn = document.querySelector("#follow");
-const followers = localStorage.getItem("followers");
-const following = localStorage.getItem("following");
-const followersArray = JSON.parse(followers);
-const followingArray = JSON.parse(following);
 const numberId = parseInt(id);
 const followersBtn = document.querySelector("#followersBtn");
 const followingBtn = document.querySelector("#followingBtn");
@@ -22,17 +18,45 @@ async function fetchUser() {
     const response = await fetch(url, fetchUserResponse);
     const json = await response.json();
     console.log(json);
-    const followersArray = JSON.stringify(json.acf.followers);
-    localStorage.setItem("followers", followersArray);
-    const followingArray = JSON.stringify(json.acf.following);
-    localStorage.setItem("following", followingArray);
-    if (followersArray.includes(numberId)) {
+
+    const amIFollowing = JSON.stringify(json.acf.followers);
+    if (amIFollowing.includes(id)) {
       followBtn.innerHTML = "Unfollow";
     } else {
       followBtn.innerHTML = "Follow";
     }
-    followersBtn.innerHTML = `Followers (${json.acf.followers.length})`;
-    followingBtn.innerHTML = `Following (${json.acf.following.length})`;
+
+    // Store the followers array as an array in localStorage
+    const followersWhat = json.acf.followers;
+    if (typeof followersWhat == "number") {
+      const followersArray = [followersWhat];
+      localStorage.setItem("followers", JSON.stringify(followersArray));
+      followersBtn.innerHTML = `Followers (1)`;
+    } else if (followersWhat === null) {
+      localStorage.setItem("followers", JSON.stringify([]));
+      followersBtn.innerHTML = `Followers (0)`;
+    } else {
+      localStorage.setItem("followers", JSON.stringify(followersWhat));
+      let followersCount = followersWhat.length;
+      followersBtn.innerHTML = `Followers (${
+        followersCount === 1 ? "1" : followersCount
+      })`;
+    }
+    const followingWhat = json.acf.following;
+    if (typeof followingWhat == "number") {
+      const followingArray = [followingWhat];
+      localStorage.setItem("following", JSON.stringify(followingArray));
+      followingBtn.innerHTML = `Following (1)`;
+    } else if (followingWhat === null) {
+      localStorage.setItem("following", JSON.stringify([]));
+      followingBtn.innerHTML = `Following (0)`;
+    } else {
+      localStorage.setItem("following", JSON.stringify(followingWhat));
+      let followingCount = followingWhat.length;
+      followingBtn.innerHTML = `Following (${
+        followingCount === 1 ? "1" : followingCount
+      })`;
+    }
   } catch (error) {
     console.error(error);
   }
@@ -49,8 +73,31 @@ followBtn.addEventListener("click", () => {
 });
 
 async function follow() {
-  followersArray.push(numberId);
-  followingArray.push(numberId);
+  const myFollowers = localStorage.getItem("followers");
+  const myFollowing = localStorage.getItem("following");
+  let followersArray = JSON.parse(myFollowers);
+  let followingArray = JSON.parse(myFollowing);
+  const parseId = parseInt(id);
+  console.log(
+    followersArray.length,
+    typeof followersArray,
+    followersArray,
+    followingArray.length,
+    typeof followingArray,
+    followingArray
+  );
+  let newFollowersArray = [];
+  if (followersArray.length == 0) {
+    newFollowersArray = parseId;
+  } else {
+    newFollowersArray = [followersArray, parseId];
+  }
+  let newFollowingArray = [];
+  if (followingArray.length == 0) {
+    newFollowingArray = parseId;
+  } else {
+    newFollowingArray = [followingArray, parseId];
+  }
   try {
     const followResponse = {
       method: "PUT",
@@ -60,25 +107,63 @@ async function follow() {
       },
       body: JSON.stringify({
         acf: {
-          followers: followersArray,
-          following: followingArray,
+          followers: newFollowersArray,
+          following: newFollowingArray,
         },
       }),
     };
     console.log(followersArray, numberId);
     const response = await fetch(url, followResponse);
     const json = await response.json();
-    if (response.ok) {
-      followBtn.innerHTML = "Unfollow";
-    }
+
     console.log(json);
-    location.reload();
+    setTimeout(() => {
+      location.reload();
+    }, 500);
   } catch (error) {
     console.error(error);
   }
 }
 
+const theirFollowers = localStorage.getItem("theirFollowers");
+const followersArray = JSON.parse(theirFollowers);
+console.log(typeof followersArray, followersArray, typeof numberId, numberId);
+
+let newFollowerArray = [];
+if (followersArray == numberId) {
+  newFollowerArray = null;
+} else if (followersArray !== null) {
+  newFollowerArray = followersArray.filter((follower) => follower !== numberId);
+} else {
+  newFollowerArray = null;
+}
+
 async function unfollow() {
+  const followers = localStorage.getItem("followers");
+  const following = localStorage.getItem("following");
+  const followingArray = JSON.parse(following);
+  const followersArray = JSON.parse(followers);
+
+  let newFollowerArray = [];
+  if (followersArray == numberId) {
+    newFollowerArray = null;
+  } else if (followersArray !== null) {
+    newFollowerArray = followersArray.filter(
+      (follower) => follower !== numberId
+    );
+  } else {
+    newFollowerArray = null;
+  }
+
+  let newFollowingArray = [];
+  if (followingArray == numberId) {
+    newFollowingArray = null;
+  } else if (followingArray !== null) {
+    newFollowingArray = followingArray.filter((follow) => follow !== numberId);
+  } else {
+    newFollowingArray = null;
+  }
+
   try {
     const unfollowResponse = {
       method: "PUT",
@@ -88,23 +173,18 @@ async function unfollow() {
       },
       body: JSON.stringify({
         acf: {
-          followers: followersArray.filter((follower) => follower !== numberId),
-          following: followingArray.filter((follow) => follow !== numberId),
+          followers: newFollowerArray,
+          following: newFollowingArray,
         },
       }),
     };
-    followersArray.filter((follower) => follower !== numberId);
-    followingArray.filter((follow) => follow !== numberId);
     const response = await fetch(url, unfollowResponse);
     const json = await response.json();
-    if (response.ok) {
-      followBtn.innerHTML = "Follow";
-    }
     console.log(json);
     fetchUser();
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 500);
   } catch (error) {
     console.error(error);
   }
