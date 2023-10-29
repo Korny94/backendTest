@@ -74,7 +74,7 @@ button,
   min-width: 50vw;
   z-index: 1;
   gap: 1rem;
-  top: 32rem;
+  top: 35rem;
 }
 
 #theirPostsContainer {
@@ -82,7 +82,7 @@ button,
   min-width: 50vw;
   z-index: 1;
   gap: 1rem;
-  top: 32rem;
+  top: 35rem;
 }
 
 .postContainer {
@@ -123,6 +123,7 @@ button,
 .postModal {
   border-radius: 40px;
   background-color: rgba(255, 255, 255, 0.631);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 html::-webkit-scrollbar,
@@ -224,7 +225,7 @@ textarea::-webkit-scrollbar-thumb,
 
 .profileBtns {
   position: absolute;
-  top: 24rem;
+  top: 32rem;
   left: 0;
 }
 
@@ -249,7 +250,8 @@ textarea::-webkit-scrollbar-thumb,
   cursor: pointer;
 }
 
-#userModalBody {
+#userModalBody,
+#userModalBody4 {
   height: 70vh;
   display: flex;
   flex-direction: column;
@@ -421,6 +423,10 @@ textarea::-webkit-scrollbar-thumb,
 
 /* MEDIA QUERIES */
 @media (max-width: 767.8px) {
+  .profileBtns {
+    top: 28rem;
+  }
+
   .gameContainer {
     margin-top: 8rem;
   }
@@ -429,11 +435,11 @@ textarea::-webkit-scrollbar-thumb,
   }
 
   #myPostsContainer {
-    top: 27rem;
+    top: 41.5rem;
   }
 
   #theirPostsContainer {
-    top: 26rem;
+    top: 42rem;
   }
 
   .bannerImg {
