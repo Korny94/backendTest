@@ -12105,7 +12105,8 @@ textarea::-webkit-scrollbar-thumb,
 }
 
 #userModalBody,
-#userModalBody4 {
+#userModalBody4,
+#userModalBody5 {
   height: 70vh;
   display: flex;
   flex-direction: column;

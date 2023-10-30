@@ -1,16 +1,9 @@
-const messageBtn = document.querySelector("#messageBtn");
-
-messageBtn.addEventListener("click", () => {
-  location.href = "../html/messages.html";
-});
-
 async function getUsers(modalBody, usersArray) {
   const userModalBody = document.querySelector(`#${modalBody}`);
   userModalBody.innerHTML = ""; // Clear existing content
-
   for (const element of usersArray) {
     const userAvatar = element.url || "../assets/avatarNoImg.png";
-
+    console.log(userModalBody);
     const userModal = document.createElement("div");
     userModal.classList.add("userModal");
     userModal.innerHTML = DOMPurify.sanitize(`
@@ -46,7 +39,7 @@ if (followersBtn) {
   followersBtn.addEventListener("click", async () => {
     const modalBody = "userModalBody4"; // Unique ID for followers modal
     const followers = localStorage.getItem("followers");
-    const followersArray = JSON.parse(followers);
+    const followersArray = followers;
 
     try {
       const token = localStorage.getItem("token");
@@ -83,7 +76,8 @@ if (followingBtn) {
   followingBtn.addEventListener("click", async () => {
     const modalBody = "userModalBody4";
     const following = localStorage.getItem("following");
-    const followingArray = JSON.parse(following);
+    const followingArray = following;
+    console.log(followingArray);
 
     try {
       const token = localStorage.getItem("token");
@@ -101,6 +95,84 @@ if (followingBtn) {
           `https://backendtest.local/wp-json/wp/v2/users/${followingId}`,
           userResponse
         );
+
+        if (response.ok) {
+          const user = await response.json();
+          usersArray.push(user);
+        }
+      }
+
+      getUsers(modalBody, usersArray);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+}
+
+const followersBtn2 = document.querySelector("#followersBtn2");
+if (followersBtn2) {
+  followersBtn2.addEventListener("click", async () => {
+    const modalBody = "userModalBody5"; // Unique ID for followers modal
+    const followers = localStorage.getItem("theirFollowers");
+    const followersArray = followers;
+    console.log(followersArray);
+
+    try {
+      const token = localStorage.getItem("token");
+      const usersArray = [];
+      for (const followerId of followersArray) {
+        const userResponse = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        const response = await fetch(
+          `https://backendtest.local/wp-json/wp/v2/users/${followerId}`,
+          userResponse
+        );
+        console.log(response);
+
+        if (response.ok) {
+          const user = await response.json();
+          usersArray.push(user);
+        }
+      }
+
+      getUsers(modalBody, usersArray);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+}
+
+const followingBtn2 = document.querySelector("#followingBtn2");
+if (followingBtn2) {
+  followingBtn2.addEventListener("click", async () => {
+    const modalBody = "userModalBody5";
+    const following = localStorage.getItem("theirFollowing");
+    const followingArray = following;
+    console.log(followingArray);
+
+    try {
+      const token = localStorage.getItem("token");
+      const usersArray = [];
+      for (const followingId of followingArray) {
+        const userResponse = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        const response = await fetch(
+          `https://backendtest.local/wp-json/wp/v2/users/${followingId}`,
+          userResponse
+        );
+        console.log(response);
 
         if (response.ok) {
           const user = await response.json();
