@@ -66,6 +66,12 @@ async function getMatches() {
     // Check if there are matching posts
     if (matchingPosts.length > 0) {
       console.log(matchingPosts);
+      localStorage.setItem("matchId", matchingPosts[0].id.toString());
+      localStorage.setItem("player1", matchingPosts[0].author.toString());
+      localStorage.setItem(
+        "player2",
+        matchingPosts[0].acf.additional_users.toString()
+      );
     } else {
       // No posts contain both usernames
       console.log("match not found");
