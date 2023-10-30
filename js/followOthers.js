@@ -1,4 +1,5 @@
 const theirId = localStorage.getItem("otherProfile");
+const theirNumberId = parseInt(theirId);
 const myId = localStorage.getItem("id");
 const url = `https://backendtest.local/wp-json/wp/v2/users/${theirId}`;
 const token = localStorage.getItem("token");
@@ -7,6 +8,9 @@ const followBtn = document.querySelector("#followBtn2");
 const numberId = parseInt(myId);
 const followersBtn = document.querySelector("#followersBtn2");
 const followingBtn = document.querySelector("#followingBtn2");
+
+fetchMe();
+fetchUser();
 
 async function fetchUser() {
   try {
@@ -20,39 +24,43 @@ async function fetchUser() {
     const response = await fetch(url, fetchUserResponse);
     const json = await response.json();
     console.log(json);
-    const followersArray = JSON.stringify(json.acf.followers);
-    localStorage.setItem("theirFollowers", followersArray);
-    const followingArray = JSON.stringify(json.acf.following);
-    localStorage.setItem("theirFollowing", followingArray);
-    if (followersArray.includes(numberId)) {
-      followBtn.innerHTML = "Unfollow";
+    let jsonFollowing = json.acf.following;
+    let jsonFollowers = json.acf.followers;
+    if (jsonFollowers === null) {
+      jsonFollowers = [];
+    }
+    if (jsonFollowing === null) {
+      jsonFollowing = [];
+    }
+    followersBtn.innerHTML = `Followers (${jsonFollowers.length})`;
+    followingBtn.innerHTML = `Following (${jsonFollowing.length})`;
+    localStorage.setItem("theirFollowers", jsonFollowers);
+    localStorage.setItem("theirFollowing", jsonFollowing);
+    const followers = localStorage.getItem("theirFollowers");
+    console.log(followers);
+
+    let followersArray;
+    if (typeof followers !== "number") {
+      followersArray = followers.split(",").map(Number);
     } else {
-      followBtn.innerHTML = "Follow";
-    }
-    let followersCount = 0;
-    if (json.acf.followers !== null) {
-      followersCount = json.acf.followers.length;
-    }
-    let followingCount = 0;
-    if (json.acf.following !== null) {
-      followingCount = json.acf.following.length;
+      followersArray = JSON.parse(followers);
     }
 
-    followersBtn.innerHTML = `Followers (${
-      followersCount ? followersCount : 0
-    })`;
-    followingBtn.innerHTML = `Following (${
-      followingCount ? followingCount : 0
-    })`;
+    if (followersArray == numberId) {
+      followBtn.innerHTML = "Unfollow";
+    } else if (followersArray === null) {
+      followBtn.innerHTML = "Follow";
+    } else if (followersArray.includes(numberId)) {
+      followBtn.innerHTML = "Unfollow";
+    }
   } catch (error) {
     console.error(error);
   }
 }
 
-fetchUser();
-
-followBtn.addEventListener("click", () => {
-  if (followBtn.innerHTML === "Follow") {
+followBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  if (followBtn.innerText === "Follow") {
     follow();
   } else {
     unfollow();
@@ -60,13 +68,26 @@ followBtn.addEventListener("click", () => {
 });
 
 async function follow() {
-  const theirFollowers = localStorage.getItem("theirFollowers");
-  let followersArray = JSON.parse(theirFollowers);
-  if (followersArray !== null) {
-    followersArray.push(numberId);
+  const followers = localStorage.getItem("followers");
+
+  let followersArray;
+  if (typeof followers !== "number") {
+    followersArray = followers.split(",").map(Number);
   } else {
-    followersArray = [numberId];
+    followersArray = JSON.parse(followers);
   }
+  let newFollowersArray = null;
+
+  if (
+    followersArray === null ||
+    followersArray == numberId ||
+    followersArray.length == 0
+  ) {
+    newFollowersArray = numberId;
+  } else {
+    newFollowersArray = followersArray.concat([numberId]);
+  }
+
   try {
     const followResponse = {
       method: "PUT",
@@ -76,11 +97,10 @@ async function follow() {
       },
       body: JSON.stringify({
         acf: {
-          followers: followersArray,
+          followers: newFollowersArray,
         },
       }),
     };
-    console.log(followersArray, numberId);
     const response = await fetch(url, followResponse);
     const json = await response.json();
     if (response.ok) {
@@ -99,19 +119,26 @@ async function follow() {
 }
 
 async function unfollow() {
-  const theirFollowers = localStorage.getItem("theirFollowers");
-  const followersArray = JSON.parse(theirFollowers);
-  console.log(typeof followersArray, followersArray, typeof numberId, numberId);
+  const followers = localStorage.getItem("theirFollowers");
+  let followersArray;
+  if (typeof followers !== "number") {
+    followersArray = followers.split(",").map(Number);
+  } else {
+    followersArray = JSON.parse(followers);
+  }
 
-  let newFollowerArray = [];
-  if (followersArray == numberId) {
+  let newFollowerArray = null;
+
+  if (
+    followersArray == numberId ||
+    followersArray.length == 0 ||
+    followersArray === null
+  ) {
     newFollowerArray = null;
-  } else if (followersArray !== null) {
+  } else {
     newFollowerArray = followersArray.filter(
       (follower) => follower !== numberId
     );
-  } else {
-    newFollowerArray = null;
   }
 
   try {
@@ -127,7 +154,6 @@ async function unfollow() {
         },
       }),
     };
-    followersArray.filter((follower) => follower !== numberId);
     const response = await fetch(url, unfollowResponse);
     const json = await response.json();
     if (response.ok) {
@@ -168,16 +194,24 @@ async function fetchMe() {
 }
 
 async function newFollowing() {
-  const myFollowing = localStorage.getItem("myFollowing");
-  let myFollowingArray = JSON.parse(myFollowing);
-  const otherProfile = localStorage.getItem("otherProfile");
-  const otherId = parseInt(otherProfile);
-  if (myFollowingArray !== null) {
-    myFollowingArray.push(otherId);
+  const myFollowings = localStorage.getItem("myFollowing");
+  let myFollowingArray;
+  if (typeof myFollowings !== "number") {
+    myFollowingArray = myFollowings.split(",").map(Number);
   } else {
-    myFollowingArray = otherId;
+    myFollowingArray = JSON.parse(myFollowings);
   }
-  console.log(myFollowingArray);
+  let newMyFollowingArray;
+
+  if (
+    myFollowingArray == null ||
+    myFollowingArray.length == 0 ||
+    myFollowings == []
+  ) {
+    newMyFollowingArray = theirNumberId;
+  } else {
+    newMyFollowingArray = [myFollowingArray, theirNumberId];
+  }
   try {
     const token = localStorage.getItem("token");
     const url = `https://backendtest.local/wp-json/wp/v2/users/me`;
@@ -189,7 +223,7 @@ async function newFollowing() {
       },
       body: JSON.stringify({
         acf: {
-          following: myFollowingArray,
+          following: newMyFollowingArray,
         },
       }),
     };
@@ -202,26 +236,26 @@ async function newFollowing() {
 }
 
 async function removeFollowing() {
-  const myFollowing = localStorage.getItem("myFollowing");
-  let myFollowingArray = JSON.parse(myFollowing);
-  const otherProfile = localStorage.getItem("otherProfile");
-  const otherId = parseInt(otherProfile);
-  console.log(
-    typeof myFollowingArray,
-    myFollowingArray,
-    typeof otherId,
-    otherId
-  );
-
-  let myNewFollowingArray = [];
-  if (myFollowingArray === otherId) {
-    myNewFollowingArray = null;
-  } else if (myFollowingArray !== null) {
-    myNewFollowingArray = myFollowingArray.filter(
-      (number) => number !== otherId
-    );
+  const myFollowings = localStorage.getItem("myFollowing");
+  let myFollowingArray;
+  if (typeof myFollowings !== "number") {
+    myFollowingArray = myFollowings.split(",").map(Number);
   } else {
+    myFollowingArray = JSON.parse(myFollowings);
+  }
+
+  let myNewFollowingArray;
+
+  if (
+    myFollowingArray == theirNumberId ||
+    myFollowingArray.length == 0 ||
+    myFollowings == []
+  ) {
     myNewFollowingArray = null;
+  } else {
+    myNewFollowingArray = myFollowingArray.filter(
+      (number) => number !== theirNumberId
+    );
   }
   console.log(
     "myNewFollowingArray" + typeof myNewFollowingArray,
