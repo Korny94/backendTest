@@ -68,22 +68,26 @@ followBtn.addEventListener("click", (event) => {
 });
 
 async function follow() {
-  const followers = localStorage.getItem("followers");
+  const followers = localStorage.getItem("theirFollowers");
 
   let followersArray;
-  if (typeof followers !== "number") {
+  if (typeof followers === null) {
+    followersArray = [];
+  } else if (typeof followers !== "number") {
     followersArray = followers.split(",").map(Number);
   } else {
     followersArray = JSON.parse(followers);
   }
-  let newFollowersArray = null;
+  let newFollowersArray;
 
   if (
     followersArray === null ||
     followersArray == numberId ||
-    followersArray.length == 0
+    followersArray.length == 0 ||
+    followersArray == 0 ||
+    followersArray == []
   ) {
-    newFollowersArray = numberId;
+    newFollowersArray = [numberId];
   } else {
     newFollowersArray = followersArray.concat([numberId]);
   }
@@ -110,9 +114,9 @@ async function follow() {
     fetchMe();
     fetchUser();
     newFollowing();
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
+    // setTimeout(() => {
+    //   location.reload();
+    // }, 1000);
   } catch (error) {
     console.error(error);
   }
@@ -121,7 +125,9 @@ async function follow() {
 async function unfollow() {
   const followers = localStorage.getItem("theirFollowers");
   let followersArray;
-  if (typeof followers !== "number") {
+  if (typeof followers === null) {
+    followersArray = [];
+  } else if (typeof followers !== "number") {
     followersArray = followers.split(",").map(Number);
   } else {
     followersArray = JSON.parse(followers);
@@ -132,7 +138,9 @@ async function unfollow() {
   if (
     followersArray == numberId ||
     followersArray.length == 0 ||
-    followersArray === null
+    followersArray === null ||
+    followersArray == 0 ||
+    followersArray == []
   ) {
     newFollowerArray = null;
   } else {
@@ -196,22 +204,27 @@ async function fetchMe() {
 async function newFollowing() {
   const myFollowings = localStorage.getItem("myFollowing");
   let myFollowingArray;
-  if (typeof myFollowings !== "number") {
+  if (typeof myFollowings === null) {
+    myFollowingArray = [];
+  } else if (typeof myFollowings !== "number") {
     myFollowingArray = myFollowings.split(",").map(Number);
   } else {
     myFollowingArray = JSON.parse(myFollowings);
   }
+  console.log(myFollowingArray);
   let newMyFollowingArray;
-
   if (
     myFollowingArray == null ||
     myFollowingArray.length == 0 ||
-    myFollowings == []
+    myFollowings == [] ||
+    myFollowingArray == 0 ||
+    myFollowingArray == theirNumberId
   ) {
-    newMyFollowingArray = theirNumberId;
+    newMyFollowingArray = [theirNumberId];
   } else {
-    newMyFollowingArray = [myFollowingArray, theirNumberId];
+    newMyFollowingArray = myFollowingArray.concat([theirNumberId]);
   }
+  console.log(newMyFollowingArray);
   try {
     const token = localStorage.getItem("token");
     const url = `https://backendtest.local/wp-json/wp/v2/users/me`;
@@ -238,7 +251,9 @@ async function newFollowing() {
 async function removeFollowing() {
   const myFollowings = localStorage.getItem("myFollowing");
   let myFollowingArray;
-  if (typeof myFollowings !== "number") {
+  if (typeof myFollowings === null) {
+    myFollowingArray = [];
+  } else if (typeof myFollowings !== "number") {
     myFollowingArray = myFollowings.split(",").map(Number);
   } else {
     myFollowingArray = JSON.parse(myFollowings);
@@ -249,7 +264,9 @@ async function removeFollowing() {
   if (
     myFollowingArray == theirNumberId ||
     myFollowingArray.length == 0 ||
-    myFollowings == []
+    myFollowings == [] ||
+    myFollowingArray === null ||
+    myFollowingArray == 0
   ) {
     myNewFollowingArray = null;
   } else {

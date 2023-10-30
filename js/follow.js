@@ -82,21 +82,29 @@ async function follow() {
   }
   console.log(followersArray, followingArray);
 
-  let newFollowersArray = null;
+  let newFollowersArray;
 
   if (
     followersArray === null ||
     followersArray.length == 0 ||
-    followersArray == numberId
+    followersArray == numberId ||
+    followersArray == 0 ||
+    followersArray == []
   ) {
-    newFollowersArray = numberId;
+    newFollowersArray = [numberId];
   } else {
     newFollowersArray = followersArray.concat([numberId]);
   }
 
-  let newFollowingArray = null;
-  if (followingArray === null) {
-    newFollowingArray = numberId;
+  let newFollowingArray;
+  if (
+    followingArray === null ||
+    followingArray.length == 0 ||
+    followingArray == numberId ||
+    followingArray == 0 ||
+    followingArray == []
+  ) {
+    newFollowingArray = [numberId];
   } else {
     newFollowingArray = followingArray.concat([numberId]);
   }
@@ -147,22 +155,26 @@ async function unfollow() {
   if (
     followersArray == numberId ||
     followersArray.length == 0 ||
-    followersArray === null
+    followersArray === null ||
+    followersArray == 0 ||
+    followersArray == []
   ) {
-    newFollowerArray = null;
+    newFollowerArray = [];
   } else {
     newFollowerArray = followersArray.filter(
       (follower) => follower !== numberId
     );
   }
 
-  let newFollowingArray = null;
+  let newFollowingArray = [];
   if (
     followingArray == numberId ||
     followingArray.length == 0 ||
-    followingArray === null
+    followingArray === null ||
+    followingArray == 0 ||
+    followingArray == []
   ) {
-    newFollowingArray = null;
+    newFollowingArray = [];
   } else {
     newFollowingArray = followingArray.filter((follow) => follow !== numberId);
   }
