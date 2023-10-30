@@ -5,6 +5,11 @@ const followBtn = document.querySelector("#follow");
 const numberId = parseInt(id);
 const followersBtn = document.querySelector("#followersBtn");
 const followingBtn = document.querySelector("#followingBtn");
+const messageBtn = document.querySelector("#messageBtn");
+
+messageBtn.addEventListener("click", () => {
+  window.location.href = "../html/messages.html";
+});
 
 async function fetchUser() {
   try {
