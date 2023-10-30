@@ -26,7 +26,6 @@ async function fetchProfile() {
     );
     const json = await response.json();
     console.log(json);
-    localStorage.setItem("otherProfile", json.id);
 
     const bannerUrl = json.description;
 
@@ -187,33 +186,6 @@ async function fetchPosts() {
           </div>
         </div>
           `);
-
-      // // Get a reference to all comment profiles
-      // const commentProfiles = document.querySelectorAll(".profileLink");
-
-      // // Iterate through the comment profiles
-      // commentProfiles.forEach((commentProfile) => {
-      //   commentProfile.addEventListener("click", () => {
-      //     // Get the owner's username from the alt attribute
-      //     const owner = commentProfile.getAttribute("title");
-
-      //     localStorage.setItem("otherProfile", owner);
-
-      //     // Retrieve the user's own username from local storage
-      //     const username = localStorage.getItem("username");
-
-      //     // Determine the URL based on the username comparison
-      //     let url;
-      //     if (username === owner) {
-      //       url = "../html/myProfile.html";
-      //     } else {
-      //       url = "../html/profile.html";
-      //     }
-
-      //     // Redirect to the appropriate page
-      //     window.location.href = url;
-      //   });
-      // });
 
       const deletePost = postContainer.querySelector("#deletePost");
       deletePost.onclick = function () {

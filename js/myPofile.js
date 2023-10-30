@@ -144,7 +144,7 @@ async function fetchPosts() {
           <div class="modal-dialog ">
               <div class="modal-content postModal">
                   <div class="modal-header ms-2 me-3 mt-1">
-                  <div class="profileLink" id="otherProfile" title="${post._embedded.author[0].name}">
+                  <div class="profileLink" id="otherProfile" title="${post.author}">
                       <img class="modal-profile-image me-2" src="${imageProfile}" alt="" />
                       <h5 class="modal-name m-0">${post._embedded.author[0].name}</h5>
                   </div>
@@ -187,33 +187,6 @@ async function fetchPosts() {
         </div>
           `);
 
-      //   // Get a reference to all comment profiles
-      //   const commentProfiles = document.querySelectorAll(".profileLink");
-
-      //   // Iterate through the comment profiles
-      //   commentProfiles.forEach((commentProfile) => {
-      //     commentProfile.addEventListener("click", () => {
-      //       // Get the owner's username from the alt attribute
-      //       const owner = commentProfile.getAttribute("title");
-
-      //       localStorage.setItem("otherProfile", owner);
-
-      //       // Retrieve the user's own username from local storage
-      //       const username = localStorage.getItem("username");
-
-      //       // Determine the URL based on the username comparison
-      //       let url;
-      //       if (username === owner) {
-      //         url = "../html/myProfile.html";
-      //       } else {
-      //         url = "../html/profile.html";
-      //       }
-
-      //       // Redirect to the appropriate page
-      //       window.location.href = url;
-      //     });
-      //   });
-
       const deletePost = postContainer.querySelector("#deletePost");
       deletePost.onclick = function () {
         const postId = deletePost.getAttribute("title");
@@ -240,7 +213,9 @@ async function fetchPosts() {
         }
 
         // Redirect to the appropriate page
-        window.location.href = url;
+        setTimeout(() => {
+          window.location.href = url;
+        }, 1000);
       };
 
       myPostsContainer.appendChild(postContainer); // Append each post container to the main container
