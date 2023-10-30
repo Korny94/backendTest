@@ -24,6 +24,7 @@ async function fetchUser() {
     const response = await fetch(url, fetchUserResponse);
     const json = await response.json();
     console.log(json);
+    localStorage.setItem("otherProfileName", json.name);
     let jsonFollowing = json.acf.following;
     let jsonFollowers = json.acf.followers;
     if (jsonFollowers === null) {

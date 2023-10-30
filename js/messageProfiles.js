@@ -1,6 +1,9 @@
-const chat = document.querySelector("#messageBtn");
-const messageContainer = document.querySelector("#messageContainer2");
+const chat = document.querySelector("#messageBtn2");
+const messageContainer = document.querySelector("#messageContainer3");
 messageContainer.style.display = "none";
+chat.addEventListener("click", () => {
+  console.log("clicked");
+});
 
 let chatOpen = false;
 
@@ -32,6 +35,7 @@ async function getMessagesByUsernameInTitle() {
     };
     const response = await fetch(apiUrl, usernamePosts);
     const posts = await response.json();
+    console.log(posts);
 
     // Filter the matching posts
     const username = localStorage.getItem("username");

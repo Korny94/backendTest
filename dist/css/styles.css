@@ -11977,7 +11977,6 @@ button,
 
 .postModal {
   border-radius: 40px;
-  background-color: rgba(255, 255, 255, 0.631);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -12185,6 +12184,7 @@ textarea::-webkit-scrollbar-thumb,
   margin: 2rem;
   overflow: hidden;
   border-radius: 40px;
+  background-color: rgba(255, 255, 255, 0.631);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -12341,7 +12341,8 @@ textarea::-webkit-scrollbar-thumb,
   transform: scale(1.5);
 }
 
-#messageContainer2 {
+#messageContainer2,
+#messageContainer3 {
   position: fixed;
   z-index: 2;
   top: 9rem;
