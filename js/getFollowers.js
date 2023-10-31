@@ -34,17 +34,22 @@ async function getUsers(modalBody, usersArray) {
   }
 }
 
+const usersModalLabel = document.querySelector("#usersModalLabel");
+
 const followersBtn = document.querySelector("#followersBtn");
 if (followersBtn) {
   followersBtn.addEventListener("click", async () => {
+    usersModalLabel.innerHTML = "Followers";
+
     const modalBody = "userModalBody4"; // Unique ID for followers modal
     const followers = localStorage.getItem("followers");
-    const followersArray = followers;
+    const followersArray = JSON.parse(followers);
 
     try {
       const token = localStorage.getItem("token");
       const usersArray = [];
       for (const followerId of followersArray) {
+        console.log(followerId);
         const userResponse = {
           method: "GET",
           headers: {
@@ -74,9 +79,10 @@ if (followersBtn) {
 const followingBtn = document.querySelector("#followingBtn");
 if (followingBtn) {
   followingBtn.addEventListener("click", async () => {
+    usersModalLabel.innerHTML = "Following";
     const modalBody = "userModalBody4";
     const following = localStorage.getItem("following");
-    const followingArray = following;
+    const followingArray = JSON.parse(following);
     console.log(followingArray);
 
     try {
@@ -108,19 +114,24 @@ if (followingBtn) {
     }
   });
 }
+const usersModalLabel2 = document.querySelector("#usersModalLabel2");
 
 const followersBtn2 = document.querySelector("#followersBtn2");
 if (followersBtn2) {
   followersBtn2.addEventListener("click", async () => {
+    usersModalLabel2.innerHTML = "Followers";
+
     const modalBody = "userModalBody5"; // Unique ID for followers modal
     const followers = localStorage.getItem("theirFollowers");
-    const followersArray = followers;
+    const followersArray = JSON.parse(followers);
     console.log(followersArray);
 
     try {
       const token = localStorage.getItem("token");
       const usersArray = [];
       for (const followerId of followersArray) {
+        console.log(followerId);
+
         const userResponse = {
           method: "GET",
           headers: {
@@ -151,15 +162,18 @@ if (followersBtn2) {
 const followingBtn2 = document.querySelector("#followingBtn2");
 if (followingBtn2) {
   followingBtn2.addEventListener("click", async () => {
+    usersModalLabel2.innerHTML = "Following";
     const modalBody = "userModalBody5";
     const following = localStorage.getItem("theirFollowing");
-    const followingArray = following;
+    const followingArray = JSON.parse(following);
     console.log(followingArray);
 
     try {
       const token = localStorage.getItem("token");
       const usersArray = [];
       for (const followingId of followingArray) {
+        console.log(followerId);
+
         const userResponse = {
           method: "GET",
           headers: {

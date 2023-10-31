@@ -35,16 +35,20 @@ async function fetchUser() {
     }
     followersBtn.innerHTML = `Followers (${jsonFollowers.length})`;
     followingBtn.innerHTML = `Following (${jsonFollowing.length})`;
-    localStorage.setItem("theirFollowers", jsonFollowers);
-    localStorage.setItem("theirFollowing", jsonFollowing);
-    const followers = localStorage.getItem("theirFollowers");
-    console.log(followers);
+    localStorage.setItem("theirFollowers", JSON.stringify(jsonFollowers));
+    localStorage.setItem("theirFollowing", JSON.stringify(jsonFollowing));
+    const unParsedFollowers = localStorage.getItem("theirFollowers");
+    const followers = JSON.parse(unParsedFollowers);
+    console.log(typeof followers);
 
     let followersArray;
-    if (typeof followers !== "number") {
+    if (typeof followers === "string" || followers.length < 2) {
+      followersArray = followers;
+      console.log(followersArray);
+    } else if (typeof followers !== "number") {
       followersArray = followers.split(",").map(Number);
     } else {
-      followersArray = JSON.parse(followers);
+      followersArray = followers;
     }
 
     if (followersArray == numberId) {
@@ -72,7 +76,7 @@ async function follow() {
   const followers = localStorage.getItem("theirFollowers");
 
   let followersArray;
-  if (typeof followers === null) {
+  if (followers === "null") {
     followersArray = [];
   } else if (typeof followers !== "number") {
     followersArray = followers.split(",").map(Number);
@@ -82,7 +86,7 @@ async function follow() {
   let newFollowersArray;
 
   if (
-    followersArray === null ||
+    followersArray === "null" ||
     followersArray == numberId ||
     followersArray.length == 0 ||
     followersArray == 0 ||
@@ -126,7 +130,7 @@ async function follow() {
 async function unfollow() {
   const followers = localStorage.getItem("theirFollowers");
   let followersArray;
-  if (typeof followers === null) {
+  if (followers === "null") {
     followersArray = [];
   } else if (typeof followers !== "number") {
     followersArray = followers.split(",").map(Number);
@@ -139,7 +143,7 @@ async function unfollow() {
   if (
     followersArray == numberId ||
     followersArray.length == 0 ||
-    followersArray === null ||
+    followersArray === "null" ||
     followersArray == 0 ||
     followersArray == []
   ) {
@@ -195,7 +199,7 @@ async function fetchMe() {
     const json = await response.json();
     console.log(json);
     const myFollowingArray = json.acf.following;
-    localStorage.setItem("myFollowing", myFollowingArray);
+    localStorage.setItem("myFollowing", JSON.stringify(myFollowingArray));
     console.log(myFollowingArray);
   } catch (error) {
     console.error(error);
@@ -204,18 +208,21 @@ async function fetchMe() {
 
 async function newFollowing() {
   const myFollowings = localStorage.getItem("myFollowing");
+  console.log(myFollowings);
   let myFollowingArray;
-  if (typeof myFollowings === null) {
+  if (myFollowings === "null") {
     myFollowingArray = [];
+    console.log(myFollowingArray);
   } else if (typeof myFollowings !== "number") {
     myFollowingArray = myFollowings.split(",").map(Number);
+    console.log(myFollowingArray);
   } else {
     myFollowingArray = JSON.parse(myFollowings);
+    console.log(myFollowingArray);
   }
-  console.log(myFollowingArray);
   let newMyFollowingArray;
   if (
-    myFollowingArray == null ||
+    myFollowingArray === "null" ||
     myFollowingArray.length == 0 ||
     myFollowings == [] ||
     myFollowingArray == 0 ||
@@ -252,7 +259,7 @@ async function newFollowing() {
 async function removeFollowing() {
   const myFollowings = localStorage.getItem("myFollowing");
   let myFollowingArray;
-  if (typeof myFollowings === null) {
+  if (myFollowings === "null") {
     myFollowingArray = [];
   } else if (typeof myFollowings !== "number") {
     myFollowingArray = myFollowings.split(",").map(Number);
@@ -266,7 +273,7 @@ async function removeFollowing() {
     myFollowingArray == theirNumberId ||
     myFollowingArray.length == 0 ||
     myFollowings == [] ||
-    myFollowingArray === null ||
+    myFollowingArray === "null" ||
     myFollowingArray == 0
   ) {
     myNewFollowingArray = null;

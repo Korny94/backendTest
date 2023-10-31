@@ -9,10 +9,6 @@ nav {
   z-index: 2;
 }
 
-#navbarSupportedContent {
-  margin-top: 1.2rem;
-}
-
 .messagesIcon {
   height: 2.5rem;
   transition: ease-in-out 300ms;
@@ -327,6 +323,7 @@ textarea::-webkit-scrollbar-thumb,
   padding: 0;
   margin: 0;
   padding-left: 2rem;
+  padding-right: 1rem;
   gap: 1.5rem;
 }
 
@@ -476,6 +473,9 @@ textarea::-webkit-scrollbar-thumb,
 
 /* MEDIA QUERIES */
 @media (max-width: 767.8px) {
+  #navbarSupportedContent {
+    margin-top: 1.2rem;
+  }
   #chat {
     top: 4rem;
     padding-top: 0.2rem;

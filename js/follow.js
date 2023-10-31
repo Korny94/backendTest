@@ -26,30 +26,33 @@ async function fetchUser() {
 
     let jsonFollowers = json.acf.followers;
     let jsonFollowing = json.acf.following;
-    if (jsonFollowers === null) {
+    if (jsonFollowers === "null") {
       jsonFollowers = [];
     }
-    if (jsonFollowing === null) {
+    if (jsonFollowing === "null") {
       jsonFollowing = [];
     }
     followersBtn.innerHTML = `Followers (${jsonFollowers.length})`;
     followingBtn.innerHTML = `Following (${jsonFollowing.length})`;
-    localStorage.setItem("followers", jsonFollowers);
-    localStorage.setItem("following", jsonFollowing);
-    const followers = localStorage.getItem("followers");
+    localStorage.setItem("followers", JSON.stringify(jsonFollowers));
+    localStorage.setItem("following", JSON.stringify(jsonFollowing));
+    const unParsedFollowers = localStorage.getItem("followers");
+    const followers = JSON.parse(unParsedFollowers);
     console.log(followers);
 
     let followersArray;
-    if (typeof followers !== "number") {
+    if (typeof followers === "string" || followers.length < 2) {
+      followersArray = followers;
+    } else if (typeof followers !== "number") {
       followersArray = followers.split(",").map(Number);
     } else {
-      followersArray = JSON.parse(followers);
+      followersArray = followers;
     }
     console.log(followersArray);
 
     if (followersArray == numberId) {
       followBtn.innerHTML = "Unfollow";
-    } else if (followersArray === null) {
+    } else if (followersArray === "null") {
       followBtn.innerHTML = "Follow";
     } else if (followersArray.includes(numberId)) {
       followBtn.innerHTML = "Unfollow";
@@ -72,15 +75,20 @@ followBtn.addEventListener("click", () => {
 async function follow() {
   const followers = localStorage.getItem("followers");
   const following = localStorage.getItem("following");
+  console.log(typeof following);
 
   let followersArray;
-  if (typeof followers !== "number") {
+  if (typeof followers === "string") {
+    followersArray = JSON.parse(followers);
+  } else if (typeof followers !== "number") {
     followersArray = followers.split(",").map(Number);
   } else {
     followersArray = JSON.parse(followers);
   }
   let followingArray;
-  if (typeof following !== "number") {
+  if (typeof following === "string") {
+    followingArray = JSON.parse(following);
+  } else if (typeof following !== "number") {
     followingArray = following.split(",").map(Number);
   } else {
     followingArray = JSON.parse(following);
@@ -90,7 +98,7 @@ async function follow() {
   let newFollowersArray;
 
   if (
-    followersArray === null ||
+    followersArray === "null" ||
     followersArray.length == 0 ||
     followersArray == numberId ||
     followersArray == 0 ||
@@ -103,7 +111,7 @@ async function follow() {
 
   let newFollowingArray;
   if (
-    followingArray === null ||
+    followingArray === "null" ||
     followingArray.length == 0 ||
     followingArray == numberId ||
     followingArray == 0 ||
@@ -160,7 +168,7 @@ async function unfollow() {
   if (
     followersArray == numberId ||
     followersArray.length == 0 ||
-    followersArray === null ||
+    followersArray === "null" ||
     followersArray == 0 ||
     followersArray == []
   ) {
@@ -175,7 +183,7 @@ async function unfollow() {
   if (
     followingArray == numberId ||
     followingArray.length == 0 ||
-    followingArray === null ||
+    followingArray === "null" ||
     followingArray == 0 ||
     followingArray == []
   ) {

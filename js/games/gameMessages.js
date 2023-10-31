@@ -44,9 +44,50 @@ async function getMessagesByUsernameInTitle() {
           .includes(otherProfileName.toLowerCase())
     );
 
-    displaySortedPosts(matchingPosts);
+    if (matchingPosts.length === 0) {
+      createMessage();
+    } else {
+      displaySortedPosts(matchingPosts);
+    }
   } catch (error) {
     console.error("Error fetching posts:", error);
+  }
+}
+
+async function createMessage() {
+  try {
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    const otherProfile = localStorage.getItem("otherProfile");
+    const otherProfileName = localStorage.getItem("otherProfileName");
+    const messageResponse = {
+      method: "POST",
+      body: JSON.stringify({
+        title: otherProfileName + " & " + username,
+        status: "publish",
+        content: "",
+        acf: {
+          additional_users: otherProfile,
+        },
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await fetch(
+      `https://karlmagnusnokling.no/haley/wp-json/wp/v2/message?_embed=true`,
+      messageResponse
+    );
+    const json = await response.json();
+
+    chatOpen = true;
+    messageContainer.style.display = "flex";
+
+    getMessagesByUsernameInTitle();
+    console.log(json);
+  } catch (error) {
+    console.error(error);
   }
 }
 
