@@ -40,4 +40,17 @@ export function attachCommentEventListener(postId) {
       postComment(commentUrl, commentText);
     }
   });
+
+  commentInput.addEventListener("keyup", (event) => {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      const commentText = commentInput.value;
+      if (commentText.trim() !== "") {
+        const commentUrl = `https://karlmagnusnokling.no/haley/wp-json/wp/v2/comments?post=${postId}`;
+        const scrollPosition = window.scrollY;
+        localStorage.setItem("scrollPosition", scrollPosition);
+        postComment(commentUrl, commentText);
+      }
+    }
+  });
 }
