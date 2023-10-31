@@ -76,7 +76,7 @@ async function createMessage() {
     );
     const json = await response.json();
 
-    location.reload();
+    getMessagesByUsernameInTitle();
     console.log(json);
   } catch (error) {
     console.error(error);
@@ -158,12 +158,6 @@ function displaySortedPosts(sortedPosts) {
       // Compare comments based on the commentDate
       return new Date(commentDateA) - new Date(commentDateB);
     });
-    const modalCommentsList = document.querySelectorAll(".modal-comments");
-    modalCommentsList.forEach((modalComments) => {
-      if (modalComments) {
-        modalComments.scrollTop = modalComments.scrollHeight;
-      }
-    });
 
     comments.forEach((comment) => {
       const commentName = comment.author_name;
@@ -199,7 +193,11 @@ function displaySortedPosts(sortedPosts) {
                   </div>
               </div>
           `);
-
+    const modalCommentsList = document.querySelectorAll(".modal-comments");
+    modalCommentsList.forEach((modalComments) => {
+      console.log(modalComments);
+      modalComments.scrollTop = modalComments.scrollHeight;
+    });
     messageContainer.appendChild(postContainer); // Append each post container to the main container
     attachCommentEventListener(postId);
 

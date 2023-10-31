@@ -17,9 +17,7 @@ const username = localStorage.getItem("username");
 
 async function getMatches() {
   waitingOn.style.color = "green";
-  waitingOn.innerHTML = DOMPurify.sanitize(`
-      Ready for a new game!
-      `);
+
   try {
     const url =
       "https://karlmagnusnokling.no/haley/wp-json/wp/v2/game1?_embed=true";
@@ -125,6 +123,8 @@ async function getMatches() {
         if (player1 === id) {
           console.log("Player 1 Wins!");
           waitingOn.classList.add("mb-5");
+          choicesContainer.style.opacity = "1";
+
           waitingOn.innerHTML = DOMPurify.sanitize(`
           ${username} Wins!     
           `);
@@ -134,6 +134,8 @@ async function getMatches() {
         } else {
           console.log("Player 2 Wins!");
           waitingOn.classList.add("mb-5");
+          choicesContainer.style.opacity = "1";
+
           waitingOn.innerHTML = DOMPurify.sanitize(`
               ${otherProfileName} Wins!
               `);
@@ -148,6 +150,8 @@ async function getMatches() {
       ) {
         if (player1 === id) {
           console.log("Player 2 Wins!");
+          choicesContainer.style.opacity = "1";
+
           waitingOn.classList.add("mb-5");
           waitingOn.innerHTML = DOMPurify.sanitize(`
                   ${otherProfileName} Wins! Wait for a new game
@@ -157,6 +161,8 @@ async function getMatches() {
           }, 3000);
         } else {
           console.log("Player 1 Wins!");
+          choicesContainer.style.opacity = "1";
+
           waitingOn.classList.add("mb-5");
           waitingOn.innerHTML = DOMPurify.sanitize(`
               ${username} Wins! Wait for a new game
@@ -168,6 +174,7 @@ async function getMatches() {
       } else if (player1choice === player2choice) {
         console.log("Draw!");
         waitingOn.classList.add("mb-5");
+        choicesContainer.style.opacity = "1";
 
         waitingOn.innerHTML = DOMPurify.sanitize(`
           Draw! Wait for a new game 
@@ -187,9 +194,12 @@ async function getMatches() {
         `Waiting on ${otherProfileName}`
       );
       loader.classList.add("loader");
-      setTimeout(() => {
-        location.reload();
-      }, 3000);
+      // setTimeout(() => {
+      //   location.reload();
+      // }, 3000);
+      setInterval(() => {
+        getMatches();
+      }, 1000);
 
       choicesContainer.style.opacity = "0";
       ready.style.display = "none";
@@ -203,9 +213,12 @@ async function getMatches() {
       loader.classList.add("loader");
       choicesContainer.style.opacity = "0";
       ready.style.display = "none";
-      setTimeout(() => {
-        location.reload();
-      }, 3000);
+      // setTimeout(() => {
+      //   location.reload();
+      // }, 3000);
+      setInterval(() => {
+        getMatches();
+      }, 1000);
     } else {
       console.log("Waiting on you");
     }
@@ -270,11 +283,10 @@ ready.addEventListener("click", () => {
       },
     };
     fetch(url, gameResponse);
-    getMatches();
 
     setTimeout(() => {
       location.reload();
-    }, 500);
+    }, 100);
   }
 
   console.log(typeof player2.toString(), typeof id.toString());
