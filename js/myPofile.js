@@ -116,6 +116,15 @@ async function fetchPosts() {
             post._embedded.replies && post._embedded.replies[0]
               ? post._embedded.replies[0]
               : [];
+
+          comments.sort((commentA, commentB) => {
+            const commentDateA = new Date(commentA.date); // Convert the date to a JavaScript Date object
+            const commentDateB = new Date(commentB.date);
+
+            // Compare comments based on the commentDate
+            return commentDateA - commentDateB;
+          });
+
           let commentHTML = "";
           comments.forEach((comment) => {
             const commentName = comment.author_name;
