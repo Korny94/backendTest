@@ -1,5 +1,5 @@
 const id = localStorage.getItem("id");
-const url = `https://backendtest.local/wp-json/wp/v2/users/${id}`;
+const url = `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/${id}`;
 const token = localStorage.getItem("token");
 const followBtn = document.querySelector("#follow");
 const numberId = parseInt(id);

@@ -54,7 +54,7 @@ if (followersBtn) {
         };
 
         const response = await fetch(
-          `https://backendtest.local/wp-json/wp/v2/users/${followerId}`,
+          `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/${followerId}`,
           userResponse
         );
 
@@ -92,7 +92,7 @@ if (followingBtn) {
         };
 
         const response = await fetch(
-          `https://backendtest.local/wp-json/wp/v2/users/${followingId}`,
+          `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/${followingId}`,
           userResponse
         );
 
@@ -130,7 +130,7 @@ if (followersBtn2) {
         };
 
         const response = await fetch(
-          `https://backendtest.local/wp-json/wp/v2/users/${followerId}`,
+          `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/${followerId}`,
           userResponse
         );
         console.log(response);
@@ -169,7 +169,7 @@ if (followingBtn2) {
         };
 
         const response = await fetch(
-          `https://backendtest.local/wp-json/wp/v2/users/${followingId}`,
+          `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/${followingId}`,
           userResponse
         );
         console.log(response);

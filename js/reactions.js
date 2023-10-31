@@ -17,7 +17,7 @@ export async function postReaction(postId, reaction) {
 
   try {
     const response = await fetch(
-      `https://backendtest.local/wp-json/custom/v1/post-reactions`,
+      `https://karlmagnusnokling.no/haley/wp-json/custom/v1/post-reactions`,
       reactionResponse
     );
     const responseData = await response.json();
@@ -100,7 +100,7 @@ export async function getReactionCounts(postId, modalReactionCount) {
       },
     };
     const response = await fetch(
-      `https://backendtest.local/wp-json/custom/v1/post-reactions/${postId}`,
+      `https://karlmagnusnokling.no/haley/wp-json/custom/v1/post-reactions/${postId}`,
       reactionCountResponse
     );
 

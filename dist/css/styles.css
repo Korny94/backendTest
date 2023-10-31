@@ -11992,7 +11992,9 @@ textarea::-webkit-scrollbar,
 #userModalBody::-webkit-scrollbar,
 #messageContainer::-webkit-scrollbar,
 #userModalBody2::-webkit-scrollbar,
-#userModalBody3::-webkit-scrollbar {
+#userModalBody3::-webkit-scrollbar,
+#userModalBody4::-webkit-scrollbar,
+#userModalBody5::-webkit-scrollbar {
   height: 10px;
 }
 
@@ -12003,7 +12005,9 @@ textarea::-webkit-scrollbar-thumb,
 #userModalBody::-webkit-scrollbar-thumb,
 #messageContainer::-webkit-scrollbar-thumb,
 #userModalBody2::-webkit-scrollbar-thumb,
-#userModalBody3::-webkit-scrollbar-thumb {
+#userModalBody3::-webkit-scrollbar-thumb,
+#userModalBody4::-webkit-scrollbar-thumb,
+#userModalBody5::-webkit-scrollbar-thumb {
   background-color: rgba(148, 148, 156, 0.431372549);
   border-radius: 4px;
 }

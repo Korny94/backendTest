@@ -1,7 +1,7 @@
 const theirId = localStorage.getItem("otherProfile");
 const theirNumberId = parseInt(theirId);
 const myId = localStorage.getItem("id");
-const url = `https://backendtest.local/wp-json/wp/v2/users/${theirId}`;
+const url = `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/${theirId}`;
 const token = localStorage.getItem("token");
 const followBtn = document.querySelector("#followBtn2");
 
@@ -183,7 +183,7 @@ async function unfollow() {
 async function fetchMe() {
   try {
     const token = localStorage.getItem("token");
-    const url = `https://backendtest.local/wp-json/wp/v2/users/me`;
+    const url = `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/me`;
     const fetchMeResponse = {
       method: "GET",
       headers: {
@@ -228,7 +228,7 @@ async function newFollowing() {
   console.log(newMyFollowingArray);
   try {
     const token = localStorage.getItem("token");
-    const url = `https://backendtest.local/wp-json/wp/v2/users/me`;
+    const url = `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/me`;
     const newFollowingResponse = {
       method: "PUT",
       headers: {
@@ -280,7 +280,7 @@ async function removeFollowing() {
     myNewFollowingArray
   );
   try {
-    const url = `https://backendtest.local/wp-json/wp/v2/users/me`;
+    const url = `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/me`;
     const removeFollowingResponse = {
       method: "PUT",
       headers: {

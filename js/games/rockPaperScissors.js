@@ -21,7 +21,8 @@ async function getMatches() {
       Ready for a new game!
       `);
   try {
-    const url = "https://backendtest.local/wp-json/wp/v2/game1?_embed=true";
+    const url =
+      "https://karlmagnusnokling.no/haley/wp-json/wp/v2/game1?_embed=true";
 
     const gameResponse = {
       method: "GET",
@@ -248,7 +249,7 @@ ready.addEventListener("click", () => {
   const matchIdString = matchId.toString();
   console.log(typeof matchIdString);
 
-  const url = `https://backendtest.local/wp-json/wp/v2/game1/${matchIdString}`;
+  const url = `https://karlmagnusnokling.no/haley/wp-json/wp/v2/game1/${matchIdString}`;
 
   console.log(typeof player1.toString(), typeof id.toString());
 
@@ -305,7 +306,8 @@ ready.addEventListener("click", () => {
 
 async function createMatch() {
   try {
-    const url = "https://backendtest.local/wp-json/wp/v2/game1?_embed=true";
+    const url =
+      "https://karlmagnusnokling.no/haley/wp-json/wp/v2/game1?_embed=true";
 
     const gameResponse = {
       method: "POST",
@@ -358,7 +360,7 @@ async function newGame(point1, point2) {
   const matchIdString = matchId.toString();
 
   const response = await fetch(
-    `https://backendtest.local/wp-json/wp/v2/game1/${matchIdString}`,
+    `https://karlmagnusnokling.no/haley/wp-json/wp/v2/game1/${matchIdString}`,
     newGameResponse
   );
   const json = await response.json();

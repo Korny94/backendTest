@@ -17,7 +17,7 @@ async function getUsers(modalBody) {
       },
     };
     const response = await fetch(
-      "https://backendtest.local/wp-json/wp/v2/users",
+      "https://karlmagnusnokling.no/haley/wp-json/wp/v2/users",
       userResponse
     );
     const json = await response.json();

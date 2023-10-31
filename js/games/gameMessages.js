@@ -19,7 +19,7 @@ import { attachCommentEventListener } from "../postComment.js";
 
 async function getMessagesByUsernameInTitle() {
   const apiUrl =
-    "https://backendtest.local/wp-json/wp/v2/message?_embed=true&per_page=100";
+    "https://karlmagnusnokling.no/haley/wp-json/wp/v2/message?_embed=true&per_page=100";
   const token = localStorage.getItem("token");
 
   try {

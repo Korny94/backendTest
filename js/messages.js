@@ -12,7 +12,7 @@ async function getUsers() {
       },
     };
     const response = await fetch(
-      "https://backendtest.local/wp-json/wp/v2/users",
+      "https://karlmagnusnokling.no/haley/wp-json/wp/v2/users",
       userResponse
     );
     const json = await response.json();
@@ -71,7 +71,7 @@ async function createMessage() {
       },
     };
     const response = await fetch(
-      `https://backendtest.local/wp-json/wp/v2/message?_embed=true`,
+      `https://karlmagnusnokling.no/haley/wp-json/wp/v2/message?_embed=true`,
       messageResponse
     );
     const json = await response.json();
@@ -85,7 +85,7 @@ async function createMessage() {
 
 async function getMessagesByUsernameInTitle() {
   const apiUrl =
-    "https://backendtest.local/wp-json/wp/v2/message?_embed=true&per_page=100";
+    "https://karlmagnusnokling.no/haley/wp-json/wp/v2/message?_embed=true&per_page=100";
   const token = localStorage.getItem("token");
 
   try {
@@ -231,7 +231,8 @@ function displaySortedPosts(sortedPosts) {
 getMessagesByUsernameInTitle();
 
 async function getSpecificMessage() {
-  const apiUrl = "https://backendtest.local/wp-json/wp/v2/message?_embed=true";
+  const apiUrl =
+    "https://karlmagnusnokling.no/haley/wp-json/wp/v2/message?_embed=true";
   const token = localStorage.getItem("token");
 
   try {

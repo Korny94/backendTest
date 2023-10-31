@@ -21,7 +21,7 @@ async function fetchProfile() {
       },
     };
     const response = await fetch(
-      `https://backendtest.local/wp-json/wp/v2/users/${otherProfile}`,
+      `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/${otherProfile}`,
       profileResponse
     );
     const json = await response.json();
@@ -81,6 +81,7 @@ async function fetchPosts() {
   try {
     const token = localStorage.getItem("token");
     const id = localStorage.getItem("id");
+    const otherProfile = localStorage.getItem("otherProfile");
     const postsResponse = {
       method: "GET",
       headers: {
@@ -89,7 +90,7 @@ async function fetchPosts() {
       },
     };
     const response = await fetch(
-      `https://backendtest.local/wp-json/wp/v2/posts?_embed=true&id=${id}`,
+      `https://karlmagnusnokling.no/haley/wp-json/wp/v2/posts?_embed=true&id=${id}`,
       postsResponse
     );
     const json = await response.json();
@@ -99,25 +100,27 @@ async function fetchPosts() {
     loader.classList.remove("loader");
 
     json.forEach((post) => {
-      const postContainer = document.createElement("div"); // Create a new container for each post
-      postContainer.classList.add("postContainer"); // Add a class to the container
-      const repliesCount =
-        post._embedded.replies && post._embedded.replies[0]
-          ? post._embedded.replies[0].length
-          : 0;
+      if (post.categories[0] == 1) {
+        if (post.author === parseInt(otherProfile)) {
+          const postContainer = document.createElement("div"); // Create a new container for each post
+          postContainer.classList.add("postContainer"); // Add a class to the container
+          const repliesCount =
+            post._embedded.replies && post._embedded.replies[0]
+              ? post._embedded.replies[0].length
+              : 0;
 
-      const imageProfile = post._embedded.author[0].url
-        ? post._embedded.author[0].url
-        : "../assets/avatarNoImg.png";
+          const imageProfile = post._embedded.author[0].url
+            ? post._embedded.author[0].url
+            : "../assets/avatarNoImg.png";
 
-      const comments =
-        post._embedded.replies && post._embedded.replies[0]
-          ? post._embedded.replies[0]
-          : [];
-      let commentHTML = "";
-      comments.forEach((comment) => {
-        const commentName = comment.author_name;
-        commentHTML += `
+          const comments =
+            post._embedded.replies && post._embedded.replies[0]
+              ? post._embedded.replies[0]
+              : [];
+          let commentHTML = "";
+          comments.forEach((comment) => {
+            const commentName = comment.author_name;
+            commentHTML += `
         <div class="modal-comment border m-3 p-2">
         <div title="${commentName}" class="profileLink d-flex align-items-center ms-2 mt-1">
             <h6 class="modal-comment-name m-0 ms-3 mt-2">${comment.author_name}:</h6>
@@ -128,18 +131,18 @@ async function fetchPosts() {
         </div>
     </div>
     `;
-      });
+          });
 
-      const postId = post.id;
-      const imageUrl = post.meta.footnotes
-        ? post.meta.footnotes
-        : "../assets/noPostImg.jpg";
+          const postId = post.id;
+          const imageUrl = post.meta.footnotes
+            ? post.meta.footnotes
+            : "../assets/noPostImg.jpg";
 
-      console.log(imageUrl);
+          console.log(imageUrl);
 
-      const postAuthor = post._embedded.author[0].name;
+          const postAuthor = post._embedded.author[0].name;
 
-      postContainer.innerHTML = DOMPurify.sanitize(`
+          postContainer.innerHTML = DOMPurify.sanitize(`
         <div class="modal d-flex position-relative" tabindex="-1">
           <div class="modal-dialog ">
               <div class="modal-content postModal">
@@ -187,43 +190,45 @@ async function fetchPosts() {
         </div>
           `);
 
-      const deletePost = postContainer.querySelector("#deletePost");
-      deletePost.onclick = function () {
-        const postId = deletePost.getAttribute("title");
-        const postAuthor = deletePost.getAttribute("alt");
-        if (postAuthor === localStorage.getItem("username")) {
-          deletePostFunction(postId);
-        } else {
-          alert("You can only delete your own posts.");
+          const deletePost = postContainer.querySelector("#deletePost");
+          deletePost.onclick = function () {
+            const postId = deletePost.getAttribute("title");
+            const postAuthor = deletePost.getAttribute("alt");
+            if (postAuthor === localStorage.getItem("username")) {
+              deletePostFunction(postId);
+            } else {
+              alert("You can only delete your own posts.");
+            }
+          };
+
+          const otherProfile = postContainer.querySelector("#otherProfile");
+          otherProfile.onclick = function () {
+            const owner = otherProfile.getAttribute("title");
+
+            localStorage.setItem("otherProfile", owner);
+            const username = localStorage.getItem("username");
+
+            let url;
+            if (username === owner) {
+              url = "../html/myProfile.html";
+            } else {
+              url = "../html/profile.html";
+            }
+
+            // Redirect to the appropriate page
+            window.location.href = url;
+          };
+
+          theirPostsContainer.appendChild(postContainer); // Append each post container to the main container
+          attachCommentEventListener(postId);
+          addReactionListeners(postId, postReaction);
+          const modalReactionCount = document.querySelector(
+            `#modalReactionCount_${postId}`
+          );
+
+          getReactionCounts(postId, modalReactionCount);
         }
-      };
-
-      const otherProfile = postContainer.querySelector("#otherProfile");
-      otherProfile.onclick = function () {
-        const owner = otherProfile.getAttribute("title");
-
-        localStorage.setItem("otherProfile", owner);
-        const username = localStorage.getItem("username");
-
-        let url;
-        if (username === owner) {
-          url = "../html/myProfile.html";
-        } else {
-          url = "../html/profile.html";
-        }
-
-        // Redirect to the appropriate page
-        window.location.href = url;
-      };
-
-      theirPostsContainer.appendChild(postContainer); // Append each post container to the main container
-      attachCommentEventListener(postId);
-      addReactionListeners(postId, postReaction);
-      const modalReactionCount = document.querySelector(
-        `#modalReactionCount_${postId}`
-      );
-
-      getReactionCounts(postId, modalReactionCount);
+      }
     });
     setTimeout(() => {
       const scrollPosition = localStorage.getItem("scrollPosition");
@@ -253,7 +258,7 @@ async function editBanner(bannerUrl) {
       },
     };
     const response = await fetch(
-      `https://backendtest.local/wp-json/wp/v2/users/me/`,
+      `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/me/`,
       editResponse
     );
     const json = await response.json();
@@ -289,7 +294,7 @@ async function editAvatar(avatarUrl) {
       },
     };
     const response = await fetch(
-      `https://backendtest.local/wp-json/wp/v2/users/me/`,
+      `https://karlmagnusnokling.no/haley/wp-json/wp/v2/users/me/`,
       editResponse
     );
     const json = await response.json();

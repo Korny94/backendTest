@@ -9,7 +9,7 @@ export async function deletePostFunction(postId) {
       },
     };
     const response = await fetch(
-      `https://backendtest.local/wp-json/wp/v2/posts/${postId}`,
+      `https://karlmagnusnokling.no/haley/wp-json/wp/v2/posts/${postId}`,
       deleteResponse
     );
     const json = await response.json();

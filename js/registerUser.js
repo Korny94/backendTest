@@ -2,7 +2,7 @@ const registerUsername = document.querySelector("#registerUsername");
 const registerEmail = document.querySelector("#registerEmail");
 const registerPassword = document.querySelector("#registerPassword");
 const registerBtn = document.querySelector("#registerBtn");
-const registerApi = "https://backendtest.local/wp-json/wp/v2/users";
+const registerApi = "https://karlmagnusnokling.no/haley/wp-json/wp/v2/users";
 
 registerBtn.addEventListener("click", () => {
   fetchAuthToken();
@@ -27,7 +27,7 @@ async function fetchAuthToken() {
       },
     };
     const response = await fetch(
-      `https://backendtest.local/wp-json/jwt-auth/v1/token`,
+      `https://karlmagnusnokling.no/haley/wp-json/jwt-auth/v1/token`,
       fetchTokenResponse
     );
     const json = await response.json();

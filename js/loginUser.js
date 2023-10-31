@@ -32,7 +32,7 @@ async function fetchToken() {
       },
     };
     const response = await fetch(
-      `https://backendtest.local/wp-json/jwt-auth/v1/token`,
+      `https://karlmagnusnokling.no/haley/wp-json/jwt-auth/v1/token`,
       loginResponse
     );
     const json = await response.json();
@@ -68,7 +68,7 @@ async function loginUser() {
     };
 
     const response = await fetch(
-      `https://backendtest.local/wp-json/jwt-auth/v1/token/validate`,
+      `https://karlmagnusnokling.no/haley/wp-json/jwt-auth/v1/token/validate`,
       loginResponse
     );
     const json = await response.json();
