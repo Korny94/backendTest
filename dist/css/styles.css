@@ -12319,7 +12319,7 @@ textarea::-webkit-scrollbar-thumb,
 #messageContainer3 {
   position: fixed;
   z-index: 2;
-  top: 9rem;
+  top: 11rem;
   left: 0;
 }
 
