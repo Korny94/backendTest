@@ -26,12 +26,14 @@ async function fetchUser() {
 
     let jsonFollowers = json.acf.followers;
     let jsonFollowing = json.acf.following;
-    if (jsonFollowers === "null") {
+    if (jsonFollowers === null) {
       jsonFollowers = [];
     }
-    if (jsonFollowing === "null") {
+    if (jsonFollowing === null) {
       jsonFollowing = [];
     }
+    console.log(jsonFollowers, jsonFollowing);
+
     followersBtn.innerHTML = `Followers (${jsonFollowers.length})`;
     followingBtn.innerHTML = `Following (${jsonFollowing.length})`;
     localStorage.setItem("followers", JSON.stringify(jsonFollowers));
@@ -157,7 +159,7 @@ async function unfollow() {
   if (
     followersArray == numberId ||
     followersArray.length == 0 ||
-    followersArray === "null" ||
+    followersArray === null ||
     followersArray == 0 ||
     followersArray == []
   ) {
@@ -172,7 +174,7 @@ async function unfollow() {
   if (
     followingArray == numberId ||
     followingArray.length == 0 ||
-    followingArray === "null" ||
+    followingArray === null ||
     followingArray == 0 ||
     followingArray == []
   ) {

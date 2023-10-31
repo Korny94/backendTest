@@ -81,7 +81,7 @@ async function follow() {
   let newFollowersArray;
 
   if (
-    followersArray === "null" ||
+    followersArray === null ||
     followersArray == numberId ||
     followersArray.length == 0 ||
     followersArray == 0 ||
@@ -130,7 +130,7 @@ async function unfollow() {
   if (
     followersArray == numberId ||
     followersArray.length == 0 ||
-    followersArray === "null" ||
+    followersArray === null ||
     followersArray == 0 ||
     followersArray == []
   ) {
@@ -199,7 +199,7 @@ async function newFollowing() {
 
   let newMyFollowingArray;
   if (
-    myFollowingArray === "null" ||
+    myFollowingArray === null ||
     myFollowingArray.length == 0 ||
     myFollowings == [] ||
     myFollowingArray == 0 ||
@@ -244,7 +244,7 @@ async function removeFollowing() {
     myFollowingArray == theirNumberId ||
     myFollowingArray.length == 0 ||
     myFollowings == [] ||
-    myFollowingArray === "null" ||
+    myFollowingArray === null ||
     myFollowingArray == 0
   ) {
     myNewFollowingArray = null;
