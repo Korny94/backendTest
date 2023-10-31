@@ -12265,7 +12265,8 @@ textarea::-webkit-scrollbar-thumb,
 }
 
 .gameContainer {
-  height: 80vh;
+  height: 60vh;
+  margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
@@ -12277,16 +12278,56 @@ textarea::-webkit-scrollbar-thumb,
 }
 
 .gameImage {
-  height: 60vh;
-  width: 30vh;
+  width: 20rem;
+  height: 20rem;
+  object-fit: cover;
 }
 
 #choicesContainer {
   min-width: 600px;
 }
 
+#chat {
+  padding: 0.1rem 1.3rem 0.3rem 1.3rem;
+  font-size: 1.2rem;
+  position: fixed;
+  top: 8rem;
+  left: 0;
+  margin: 1rem;
+  z-index: 2;
+  transition: ease-in-out 300ms;
+  border: 0.5px solid black;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+#chat:hover {
+  transform: scale(1.1);
+}
+
+#ready {
+  transform: scale(1.4);
+  transition: ease-in-out 300ms;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  border: 0.5px solid black;
+}
+
+#ready:hover {
+  transform: scale(1.5);
+}
+
+#messageContainer2,
+#messageContainer3 {
+  position: fixed;
+  z-index: 2;
+  top: 9rem;
+  left: 0;
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 767.8px) {
+  nav {
+    height: 8rem;
+  }
   .profileBtns {
     top: 28rem;
   }
@@ -12321,43 +12362,11 @@ textarea::-webkit-scrollbar-thumb,
     width: 260px;
     margin: 1rem;
   }
+  .gameImage {
+    width: 15rem;
+    height: 15rem;
+  }
 }
-#chat {
-  padding: 0.1rem 1.3rem 0.3rem 1.3rem;
-  font-size: 1.2rem;
-  position: fixed;
-  top: 6.5rem;
-  left: 0;
-  margin: 1rem;
-  z-index: 2;
-  transition: ease-in-out 300ms;
-  border: 0.5px solid black;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-}
-
-#chat:hover {
-  transform: scale(1.1);
-}
-
-#ready {
-  transform: scale(1.4);
-  transition: ease-in-out 300ms;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  border: 0.5px solid black;
-}
-
-#ready:hover {
-  transform: scale(1.5);
-}
-
-#messageContainer2,
-#messageContainer3 {
-  position: fixed;
-  z-index: 2;
-  top: 9rem;
-  left: 0;
-}
-
 /* LOADING */
 .loader {
   animation: rotate 1s infinite;
