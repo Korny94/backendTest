@@ -50,12 +50,10 @@ async function fetchUser() {
     }
     console.log(followersArray);
 
-    if (followersArray == numberId) {
+    if (followersArray == numberId || followersArray.includes(numberId)) {
       followBtn.innerHTML = "Unfollow";
-    } else if (followersArray === "null") {
+    } else {
       followBtn.innerHTML = "Follow";
-    } else if (followersArray.includes(numberId)) {
-      followBtn.innerHTML = "Unfollow";
     }
   } catch (error) {
     console.error(error);
@@ -141,29 +139,20 @@ async function follow() {
     const json = await response.json();
 
     console.log(json);
-    setTimeout(() => {
-      location.reload();
-    }, 500);
+    fetchUser();
   } catch (error) {
     console.error(error);
   }
 }
 async function unfollow() {
-  const followers = localStorage.getItem("followers");
-  const following = localStorage.getItem("following");
-  let followersArray;
-  if (typeof followers !== "number") {
-    followersArray = followers.split(",").map(Number);
-  } else {
-    followersArray = JSON.parse(followers);
-  }
-  let followingArray;
-  if (typeof following !== "number") {
-    followingArray = following.split(",").map(Number);
-  } else {
-    followingArray = JSON.parse(following);
-  }
-  console.log(followersArray, followingArray);
+  const unParsedFollowers = localStorage.getItem("followers");
+  const unParsedFollowing = localStorage.getItem("following");
+  const followers = JSON.parse(unParsedFollowers);
+  const following = JSON.parse(unParsedFollowing);
+  let followersArray = followers;
+
+  let followingArray = following;
+
   let newFollowerArray = null;
   if (
     followersArray == numberId ||
@@ -209,9 +198,6 @@ async function unfollow() {
     const json = await response.json();
     console.log(json);
     fetchUser();
-    setTimeout(() => {
-      location.reload();
-    }, 500);
   } catch (error) {
     console.error(error);
   }
