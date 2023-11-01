@@ -12157,7 +12157,7 @@ textarea::-webkit-scrollbar-thumb,
 }
 
 .messageContainer {
-  width: 100vw;
+  width: 95vw;
   overflow: scroll;
   overflow-y: hidden;
   align-items: start;
@@ -12170,13 +12170,14 @@ textarea::-webkit-scrollbar-thumb,
   flex-direction: row;
   overflow: scroll;
   overflow-y: hidden;
-  width: 100vw;
+  width: 92vw;
   height: 4.5rem;
   align-items: center;
   justify-content: start;
   padding: 0;
   margin: 0;
-  padding-left: 2rem;
+  margin-left: 2.5rem;
+  padding-left: 0.1rem;
   padding-right: 1rem;
   gap: 1.5rem;
 }
