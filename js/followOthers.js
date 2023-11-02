@@ -50,7 +50,6 @@ async function fetchUser() {
     } else {
       followersArray = followers;
     }
-    console.log(numberId, followersArray);
 
     if (followersArray == numberId) {
       followBtn.innerHTML = "Unfollow";
@@ -58,6 +57,8 @@ async function fetchUser() {
       followBtn.innerHTML = "Follow";
     } else if (followersArray.includes(numberId)) {
       followBtn.innerHTML = "Unfollow";
+    } else {
+      followBtn.innerHTML = "Follow";
     }
   } catch (error) {
     console.error(error);
@@ -110,9 +111,7 @@ async function follow() {
     const json = await response.json();
     followBtn.innerHTML = "Unfollow";
     console.log(json);
-    setTimeout(() => {
-      location.reload();
-    }, 100);
+    newFollowing();
   } catch (error) {
     console.error(error);
   }
@@ -157,10 +156,7 @@ async function unfollow() {
     const json = await response.json();
     followBtn.innerHTML = "Follow";
     console.log(json);
-
-    setTimeout(() => {
-      location.reload();
-    }, 100);
+    removeFollowing();
   } catch (error) {
     console.error(error);
   }
@@ -226,6 +222,9 @@ async function newFollowing() {
     const response = await fetch(url, newFollowingResponse);
     const json = await response.json();
     console.log(json);
+    setTimeout(() => {
+      location.reload();
+    }, 100);
   } catch (error) {
     console.error(error);
   }
@@ -272,6 +271,9 @@ async function removeFollowing() {
     const response = await fetch(url, removeFollowingResponse);
     const json = await response.json();
     console.log(json);
+    setTimeout(() => {
+      location.reload();
+    }, 100);
   } catch (error) {
     console.error(error);
   }
