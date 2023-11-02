@@ -3,7 +3,6 @@ async function getUsers(modalBody, usersArray) {
   userModalBody.innerHTML = ""; // Clear existing content
   for (const element of usersArray) {
     const userAvatar = element.url || "../assets/avatarNoImg.png";
-    console.log(userModalBody);
     const userModal = document.createElement("div");
     userModal.classList.add("userModal");
     userModal.innerHTML = DOMPurify.sanitize(`
@@ -49,7 +48,6 @@ if (followersBtn) {
       const token = localStorage.getItem("token");
       const usersArray = [];
       for (const followerId of followersArray) {
-        console.log(followerId);
         const userResponse = {
           method: "GET",
           headers: {
@@ -83,7 +81,6 @@ if (followingBtn) {
     const modalBody = "userModalBody4";
     const following = localStorage.getItem("following");
     const followingArray = JSON.parse(following);
-    console.log(followingArray);
 
     try {
       const token = localStorage.getItem("token");
@@ -124,14 +121,11 @@ if (followersBtn2) {
     const modalBody = "userModalBody5"; // Unique ID for followers modal
     const followers = localStorage.getItem("theirFollowers");
     const followersArray = JSON.parse(followers);
-    console.log(followersArray);
 
     try {
       const token = localStorage.getItem("token");
       const usersArray = [];
       for (const followerId of followersArray) {
-        console.log(followerId);
-
         const userResponse = {
           method: "GET",
           headers: {
@@ -166,14 +160,11 @@ if (followingBtn2) {
     const modalBody = "userModalBody5";
     const following = localStorage.getItem("theirFollowing");
     const followingArray = JSON.parse(following);
-    console.log(followingArray);
 
     try {
       const token = localStorage.getItem("token");
       const usersArray = [];
       for (const followingId of followingArray) {
-        console.log(followerId);
-
         const userResponse = {
           method: "GET",
           headers: {

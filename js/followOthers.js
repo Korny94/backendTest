@@ -46,10 +46,11 @@ async function fetchUser() {
       followersArray = followers;
       console.log(followersArray);
     } else if (typeof followers !== "number") {
-      followersArray = followers.split(",").map(Number);
+      followersArray = followers;
     } else {
       followersArray = followers;
     }
+    console.log(numberId, followersArray);
 
     if (followersArray == numberId) {
       followBtn.innerHTML = "Unfollow";
@@ -107,13 +108,11 @@ async function follow() {
     };
     const response = await fetch(url, followResponse);
     const json = await response.json();
-    if (response.ok) {
-      followBtn.innerHTML = "Unfollow";
-    }
+    followBtn.innerHTML = "Unfollow";
     console.log(json);
-    fetchMe();
-    fetchUser();
-    newFollowing();
+    setTimeout(() => {
+      location.reload();
+    }, 100);
   } catch (error) {
     console.error(error);
   }
@@ -156,13 +155,12 @@ async function unfollow() {
     };
     const response = await fetch(url, unfollowResponse);
     const json = await response.json();
-    if (response.ok) {
-      followBtn.innerHTML = "Follow";
-    }
+    followBtn.innerHTML = "Follow";
     console.log(json);
-    fetchUser();
-    fetchMe();
-    removeFollowing();
+
+    setTimeout(() => {
+      location.reload();
+    }, 100);
   } catch (error) {
     console.error(error);
   }

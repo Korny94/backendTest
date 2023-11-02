@@ -46,7 +46,7 @@ async function fetchUser() {
     if (typeof followers === "string" || followers.length < 2) {
       followersArray = followers;
     } else if (typeof followers !== "number") {
-      followersArray = followers.split(",").map(Number);
+      followersArray = followers;
     } else {
       followersArray = followers;
     }
@@ -81,7 +81,7 @@ async function follow() {
   if (typeof followers === "string") {
     followersArray = JSON.parse(followers);
   } else if (typeof followers !== "number") {
-    followersArray = followers.split(",").map(Number);
+    followersArray = followers;
   } else {
     followersArray = JSON.parse(followers);
   }
@@ -89,7 +89,7 @@ async function follow() {
   if (typeof following === "string") {
     followingArray = JSON.parse(following);
   } else if (typeof following !== "number") {
-    followingArray = following.split(",").map(Number);
+    followingArray = following;
   } else {
     followingArray = JSON.parse(following);
   }
@@ -141,7 +141,9 @@ async function follow() {
     const json = await response.json();
 
     console.log(json);
-    fetchUser();
+    setTimeout(() => {
+      location.reload();
+    }, 200);
   } catch (error) {
     console.error(error);
   }
@@ -199,7 +201,9 @@ async function unfollow() {
     const response = await fetch(url, unfollowResponse);
     const json = await response.json();
     console.log(json);
-    fetchUser();
+    setTimeout(() => {
+      location.reload();
+    }, 200);
   } catch (error) {
     console.error(error);
   }
