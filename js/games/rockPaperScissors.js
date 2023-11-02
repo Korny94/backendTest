@@ -194,12 +194,9 @@ async function getMatches() {
         `Waiting on ${otherProfileName}`
       );
       loader.classList.add("loader");
-      // setTimeout(() => {
-      //   location.reload();
-      // }, 3000);
-      setInterval(() => {
-        getMatches();
-      }, 1000);
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
 
       choicesContainer.style.opacity = "0";
       ready.style.display = "none";
@@ -213,12 +210,9 @@ async function getMatches() {
       loader.classList.add("loader");
       choicesContainer.style.opacity = "0";
       ready.style.display = "none";
-      // setTimeout(() => {
-      //   location.reload();
-      // }, 3000);
-      setInterval(() => {
-        getMatches();
-      }, 1000);
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
     } else {
       console.log("Waiting on you");
     }
