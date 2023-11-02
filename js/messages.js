@@ -193,13 +193,14 @@ function displaySortedPosts(sortedPosts) {
                   </div>
               </div>
           `);
+
+    messageContainer.appendChild(postContainer); // Append each post container to the main container
+    attachCommentEventListener(postId);
     const modalCommentsList = document.querySelectorAll(".modal-comments");
     modalCommentsList.forEach((modalComments) => {
       console.log(modalComments);
       modalComments.scrollTop = modalComments.scrollHeight;
     });
-    messageContainer.appendChild(postContainer); // Append each post container to the main container
-    attachCommentEventListener(postId);
 
     // Find the date of the first reply with a date
     let postDate = null;
