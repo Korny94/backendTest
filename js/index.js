@@ -7,6 +7,10 @@ const closeRegisterModal = document.querySelector("#closeRegisterModal");
 
 registerModal.style.display = "flex";
 
+alert(
+  "To test the site use the following credentials:\n\nUsername: test\nPassword: test"
+);
+
 /**
  * @function
  * @description Open & close the sign in and sign up modals

@@ -237,5 +237,11 @@ async function createPost() {
 
 const postEntryBtn = document.querySelector("#postEntryBtn");
 postEntryBtn.addEventListener("click", () => {
-  createPost();
+  const testId = localStorage.getItem("id");
+  if (testId == 20) {
+    alert("You are not allowed to create posts.");
+    return;
+  } else {
+    createPost();
+  }
 });

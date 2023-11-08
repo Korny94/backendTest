@@ -32,6 +32,11 @@ export function attachCommentEventListener(postId) {
   const commentInput = document.querySelector(`#commentInput_${postId}`);
 
   commentBtn.addEventListener("click", () => {
+    const testId = localStorage.getItem("id");
+    if (testId == 20) {
+      alert("You are not allowed to comment.");
+      return;
+    }
     const commentText = commentInput.value;
     if (commentText.trim() !== "") {
       const commentUrl = `https://karlmagnusnokling.no/haley/wp-json/wp/v2/comments?post=${postId}`;
@@ -42,6 +47,11 @@ export function attachCommentEventListener(postId) {
   });
 
   commentInput.addEventListener("keyup", (event) => {
+    const testId = localStorage.getItem("id");
+    if (testId == 20) {
+      alert("You are not allowed to comment.");
+      return;
+    }
     if (event.keyCode === 13) {
       event.preventDefault();
       const commentText = commentInput.value;
