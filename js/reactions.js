@@ -17,7 +17,7 @@ export async function postReaction(postId, reaction) {
 
   try {
     const response = await fetch(
-      `https://karlmagnusnokling.no/haley/wp-json/custom/v1/post-reactions`,
+      `https://karlmagnusnokling.no/haley/wp-json/wp/v2/posts`,
       reactionResponse
     );
     const responseData = await response.json();
@@ -42,49 +42,49 @@ export function addReactionListeners(postId) {
   like.addEventListener("click", function () {
     const scrollPosition = window.scrollY;
     localStorage.setItem("scrollPosition", scrollPosition);
-    postReaction(postId, "like");
+    postReaction(postId, "reaction_like");
     getReactionCounts(postId);
   });
 
   dislike.addEventListener("click", function () {
     const scrollPosition = window.scrollY;
     localStorage.setItem("scrollPosition", scrollPosition);
-    postReaction(postId, "dislike");
+    postReaction(postId, "reaction_dislike");
     getReactionCounts(postId);
   });
 
   haha.addEventListener("click", function () {
     const scrollPosition = window.scrollY;
     localStorage.setItem("scrollPosition", scrollPosition);
-    postReaction(postId, "haha");
+    postReaction(postId, "reaction_haha");
     getReactionCounts(postId);
   });
 
   angry.addEventListener("click", function () {
     const scrollPosition = window.scrollY;
     localStorage.setItem("scrollPosition", scrollPosition);
-    postReaction(postId, "angry");
+    postReaction(postId, "reaction_angry");
     getReactionCounts(postId);
   });
 
   wow.addEventListener("click", function () {
     const scrollPosition = window.scrollY;
     localStorage.setItem("scrollPosition", scrollPosition);
-    postReaction(postId, "wow");
+    postReaction(postId, "reaction_wow");
     getReactionCounts(postId);
   });
 
   sad.addEventListener("click", function () {
     const scrollPosition = window.scrollY;
     localStorage.setItem("scrollPosition", scrollPosition);
-    postReaction(postId, "sad");
+    postReaction(postId, "reaction_sad");
     getReactionCounts(postId);
   });
 
   love.addEventListener("click", function () {
     const scrollPosition = window.scrollY;
     localStorage.setItem("scrollPosition", scrollPosition);
-    postReaction(postId, "love");
+    postReaction(postId, "reaction_love");
     getReactionCounts(postId);
   });
 }
@@ -100,18 +100,18 @@ export async function getReactionCounts(postId, modalReactionCount) {
       },
     };
     const response = await fetch(
-      `https://karlmagnusnokling.no/haley/wp-json/custom/v1/post-reactions/${postId}`,
+      `https://karlmagnusnokling.no/haley/wp-json/wp/v2/posts/${postId}`,
       reactionCountResponse
     );
 
     const reactionCounts = await response.json();
-    const likeCount = reactionCounts.like;
-    const dislikeCount = reactionCounts.dislike;
-    const hahaCount = reactionCounts.haha;
-    const angryCount = reactionCounts.angry;
-    const wowCount = reactionCounts.wow;
-    const sadCount = reactionCounts.sad;
-    const loveCount = reactionCounts.love;
+    const likeCount = reactionCounts.reaction_like;
+    const dislikeCount = reactionCounts.reaction_dislike;
+    const hahaCount = reactionCounts.reaction_haha;
+    const angryCount = reactionCounts.reaction_angry;
+    const wowCount = reactionCounts.reaction_wow;
+    const sadCount = reactionCounts.reaction_sad;
+    const loveCount = reactionCounts.reaction_love;
 
     const totalReactions =
       likeCount +
@@ -121,7 +121,15 @@ export async function getReactionCounts(postId, modalReactionCount) {
       wowCount +
       sadCount +
       loveCount;
-    console.log(totalReactions);
+    console.log(
+      likeCount,
+      dislikeCount,
+      hahaCount,
+      angryCount,
+      wowCount,
+      sadCount,
+      loveCount
+    );
     if (totalReactions > 0) {
       modalReactionCount.title = `${totalReactions} Reactions`;
       if (likeCount > 0) {
