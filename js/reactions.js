@@ -1,10 +1,7 @@
 export async function postReaction(postId, reaction) {
   const token = localStorage.getItem("token");
-
-  const reactionData = {
-    post_id: postId, // Send the post ID
-    reaction: reaction, // 'like' or 'dislike' or 'love' or 'haha' or 'wow' or 'sad' or 'angry'
-  };
+  const acf = "acf";
+  const reactions = "reaction";
 
   const reactionResponse = {
     method: "POST",
@@ -12,12 +9,20 @@ export async function postReaction(postId, reaction) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(reactionData),
+    // body: JSON.stringify(reactionData),
+    body: JSON.stringify({
+      [`${acf}`]: {
+        [`${reactions}`]: {
+          [`${reaction}`]: 1
+        }
+      }
+    }),
+    
   };
 
   try {
     const response = await fetch(
-      `https://karlmagnusnokling.no/haley/wp-json/wp/v2/posts`,
+      `https://karlmagnusnokling.no/haley/wp-json/wp/v2/posts/${postId}`,
       reactionResponse
     );
     const responseData = await response.json();
@@ -105,13 +110,13 @@ export async function getReactionCounts(postId, modalReactionCount) {
     );
 
     const reactionCounts = await response.json();
-    const likeCount = reactionCounts.reaction_like;
-    const dislikeCount = reactionCounts.reaction_dislike;
-    const hahaCount = reactionCounts.reaction_haha;
-    const angryCount = reactionCounts.reaction_angry;
-    const wowCount = reactionCounts.reaction_wow;
-    const sadCount = reactionCounts.reaction_sad;
-    const loveCount = reactionCounts.reaction_love;
+    const likeCount = reactionCounts.acf.reaction.reaction_like;
+    const dislikeCount = reactionCounts.acf.reaction.reaction_dislike;
+    const hahaCount = reactionCounts.acf.reaction.reaction_haha;
+    const angryCount = reactionCounts.acf.reaction.reaction_angry;
+    const wowCount = reactionCounts.acf.reaction.reaction_wow;
+    const sadCount = reactionCounts.acf.reaction.reaction_sad;
+    const loveCount = reactionCounts.acf.reaction.reaction_love;
 
     const totalReactions =
       likeCount +
