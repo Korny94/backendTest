@@ -13,11 +13,10 @@ export async function postReaction(postId, reaction) {
     body: JSON.stringify({
       [`${acf}`]: {
         [`${reactions}`]: {
-          [`${reaction}`]: 1
-        }
-      }
+          [`${reaction}`]: +1,
+        },
+      },
     }),
-    
   };
 
   try {
@@ -126,15 +125,7 @@ export async function getReactionCounts(postId, modalReactionCount) {
       wowCount +
       sadCount +
       loveCount;
-    console.log(
-      likeCount,
-      dislikeCount,
-      hahaCount,
-      angryCount,
-      wowCount,
-      sadCount,
-      loveCount
-    );
+
     if (totalReactions > 0) {
       modalReactionCount.title = `${totalReactions} Reactions`;
       if (likeCount > 0) {
