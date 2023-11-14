@@ -12,7 +12,7 @@ async function getUsers() {
       },
     };
     const response = await fetch(
-      "https://karlmagnusnokling.no/haley/wp-json/wp/v2/users",
+      "https://karlmagnusnokling.no/haley/wp-json/wp/v2/users?per_page=100",
       userResponse
     );
     const json = await response.json();
